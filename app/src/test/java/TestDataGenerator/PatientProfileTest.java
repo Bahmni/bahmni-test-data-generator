@@ -1,4 +1,5 @@
 package TestDataGenerator;
+import com.opencsv.exceptions.CsvException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -35,13 +36,19 @@ class PatientProfileTest {
         assertEquals(pProfileList.get(0), Constant.registrationHeader);
     }
 
+    @Test
+    void writePatientProfileInCSVTest() throws IOException, CsvException {
+        pf.writePatientProfileInCSV(1);
+        ContactProfile cp = new ContactProfile();
+        assertEquals(1, cp.getShuffledPatientProfilesToObject().size());
+    }
+
     @Mock
     private PatientProfile patientProfile = new PatientProfile();
 
     @Test
-    void writePatientProfileInCSVTest() throws IOException {
+    void writePatientProfileInCSVInvocationTest() throws IOException {
         patientProfile.writePatientProfileInCSV(1);
         verify(patientProfile, Mockito.times(1)).writePatientProfileInCSV(1);
     }
-
 }
