@@ -18,12 +18,8 @@ public class DataWriter {
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
             writer.writeAll(profiles);
             writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-
     }
-
 }

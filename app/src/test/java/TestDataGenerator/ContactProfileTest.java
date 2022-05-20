@@ -1,37 +1,36 @@
 package TestDataGenerator;
 
 import com.opencsv.exceptions.CsvException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
-public class ContactProfileTest {
+@ExtendWith(MockitoExtension.class)
+class ContactProfileTest {
 
-    List<String[]> data = new ArrayList<>();
-
-    @Before
-    public void init() {
-        String[] d1 = {"a"};
-        String[] d2 = {"b"};
-        data.add(d1);
-        data.add(d2);
+    ContactProfile cp = new ContactProfile();
+    @Test
+    void getShuffledPatientProfilesTest() throws IOException, CsvException {
+        List<String[]> obj = cp.getShuffledPatientProfilesToObject();
+        assertNotNull(obj);
     }
 
+    @Mock
+    ContactProfile contactProfile = new ContactProfile();
 
     @Test
-    public void getShuffledPatientProfilesToObject() throws IOException, CsvException {
-
-        ContactProfile cp = new ContactProfile();
-        cp.getShuffledPatientProfilesToObject();
-
-    }
-
-    @Test
-    public void writeContactProfileInCSV() {
+    void writeContactProfileInCSVTest() throws IOException, ParseException, CsvException {
+        contactProfile.writeContactProfileInCSV(1);
+        verify(contactProfile, Mockito.times(1)).writeContactProfileInCSV(1);
     }
 }

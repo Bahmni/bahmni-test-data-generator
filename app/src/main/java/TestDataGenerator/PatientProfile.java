@@ -27,11 +27,9 @@ public class PatientProfile {
     protected List<String[]> getPatientProfileList(int count)
     {
         List<String[]> entries = new ArrayList<>();
-        String[] header = {"Registration Number","Registration Date","First Name","Middle Name","Last Name","Gender",
-        "Birth Date", "Address.Village", "Address.Tehsil", "Address.District", "Address.State"};
         int startPoint = Constant.registrationIndexStartPoint;
 
-        entries.add(header);
+        entries.add(Constant.registrationHeader);
 
         for(int i=1;i<=count;i++)
         {
