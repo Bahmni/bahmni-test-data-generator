@@ -13,7 +13,7 @@ It uses java-faker library to crate random data. You can use JDK 11 or higher.
 Run "TestDataGenApp".
 Enter the number of patient registration needed.
 Choose 'y' or 'n' if you need encounter CSV.
-Enter the percentage of profiles need to have encounter information. You need to put number only. Don`t put %.
+Enter the number of profiles need to have encounter information.
 On successful execution, two CSV files will be created in output folder. Now you are ready import them into app.
 
 In src/main/resource folder you can find config.yaml file.
