@@ -37,6 +37,10 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'TestDataGenerator.TestDataGenApp'
+    run {
+        systemProperties System.getProperties()
+
+    }
 }
 
 test {

@@ -14,6 +14,12 @@ public class Constant {
     static int registrationIndexStartPoint = (Integer) getProperties().get("registrationIndexStartPoint");
     static String patientRegistrationStartDay = getProperties().get("patientRegistrationStartDay").toString();
     static String regInitial = getProperties().get("regInitial").toString();
+    static String patientProfileCount =  getProperties().get("patientProfileCount").toString();
+    static String sCreateContact =  getProperties().get("sCreateContact").toString();
+    static String contactCount =  getProperties().get("contactCount").toString();
+    static String baseUrl=getProperties().get("baseUrl").toString();
+
+
 
     static String[] registrationHeader = {"Registration Number","Registration Date","First Name","Middle Name","Last Name","Gender",
             "Birth Date", "Address.Village", "Address.Tehsil", "Address.District", "Address.State"};
@@ -41,5 +47,9 @@ public class Constant {
             throw new RuntimeException(e);
         }
         return data;
+    }
+    public static String getProperty(String str)
+    {
+        return getProperties().get(str).toString();
     }
 }
