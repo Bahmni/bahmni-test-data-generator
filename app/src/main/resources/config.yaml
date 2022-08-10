@@ -2,4 +2,8 @@ patientProfileFileName: output/registrations.csv
 contactProfileFileName: output/encounters.csv
 registrationIndexStartPoint: 1011
 patientRegistrationStartDay: "2014-02-11"
-regInitial: GAN
+baseUrl : https://demo-v94.mybahmni.org
+regInitial: PERF
+patientProfileCount: 50
+sCreateContact: y
+contactCount: 50
