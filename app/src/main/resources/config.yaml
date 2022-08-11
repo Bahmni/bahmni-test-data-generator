@@ -3,7 +3,11 @@ contactProfileFileName: output/encounters.csv
 registrationIndexStartPoint: 1011
 patientRegistrationStartDay: "2014-02-11"
 baseUrl : https://demo-v94.mybahmni.org
-regInitial: PERF
-patientProfileCount: 50
-sCreateContact: n
-contactCount: 50
+user: superman
+password: Admin123
+location: "{\"name\":\"Registration Desk\",\"uuid\":\"c5854fd7-3f12-11e4-adec-0800271c1b75\"}"
+regInitial: PERF-
+patientProfileCount: 10
+sCreateContact: y
+contactCount: 10
+sUploadCsv: y

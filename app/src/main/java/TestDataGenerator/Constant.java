@@ -18,6 +18,9 @@ public class Constant {
     static String sCreateContact =  getProperties().get("sCreateContact").toString();
     static String contactCount =  getProperties().get("contactCount").toString();
     static String baseUrl=getProperties().get("baseUrl").toString();
+    static String user=getProperties().get("user").toString();
+    static String password=getProperties().get("password").toString();
+    static String location=getProperties().get("location").toString();
 
 
 

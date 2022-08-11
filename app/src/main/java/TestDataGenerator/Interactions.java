@@ -43,13 +43,23 @@ public class Interactions
     public  static void uploadPatient()
     {
         Map<String,String> headers=new HashMap<>();
-        File file = new File(Constant.patientProfileFileName);
-        headers.put("Accept","application/json, text/plain, */*");
+        headers.put( "Accept","*/*");
+        headers.put("Accept-Encoding","gzip, deflate, br");
+        headers.put("Accept-Language","en-GB,en-US;q=0.9,en;q=0.8");
         String path="/openmrs/ws/rest/v1/bahmnicore/admin/upload/patient";
-        Request.post(path,headers,file);
+        Request.post(path,headers,System.getProperty("user.dir")+"/"+Constant.patientProfileFileName);
+    }
+    public  static void uploadEncounters()
+    {
+        Map<String,String> headers=new HashMap<>();
+        headers.put( "Accept","*/*");
+        headers.put("Accept-Encoding","gzip, deflate, br");
+        headers.put("Accept-Language","en-GB,en-US;q=0.9,en;q=0.8");
+        String path="/openmrs/ws/rest/v1/bahmnicore/admin/upload/encounter";
+        Request.post(path,headers,System.getProperty("user.dir")+"/"+Constant.contactProfileFileName);
     }
 
-    public static void uploadEncounter()
+    public static void verifyUpload()
     {
 
     }
