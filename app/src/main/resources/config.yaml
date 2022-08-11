@@ -2,7 +2,7 @@ patientProfileFileName: output/registrations.csv
 contactProfileFileName: output/encounters.csv
 registrationIndexStartPoint: 1011
 patientRegistrationStartDay: "2014-02-11"
-baseUrl : https://demo-v94.mybahmni.org
+baseUrl : http://localhost:8080
 regInitial: PERF
 patientProfileCount: 50
 sCreateContact: y

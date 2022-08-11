@@ -13,19 +13,20 @@ import java.util.Scanner;
 
 public class TestDataGenApp {
 
-    public static void main(String args[]) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
-        String isGradleRun=System.getProperty("isGradle");
-        Map<String, Integer> userInput = (isGradleRun==null) ? validateInput():validateArgsInput();
-        try {
-            createCSVs(userInput.get("profileCount"), userInput.get("contactCount"));
-        } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
-        } catch (ParseException e) {
-            System.out.println(e.getLocalizedMessage());
-        } catch (CsvException e) {
-            System.out.println(e.getLocalizedMessage());
-        }
-        Interactions.login("superman","Admin123");
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, InterruptedException {
+//        String isGradleRun=System.getProperty("isGradle");
+//        Map<String, Integer> userInput = (isGradleRun==null) ? validateInput():validateArgsInput();
+//        try {
+//            createCSVs(userInput.get("profileCount"), userInput.get("contactCount"));
+//        } catch (IOException e) {
+//            System.out.println(e.getLocalizedMessage());
+//        } catch (ParseException e) {
+//            System.out.println(e.getLocalizedMessage());
+//        } catch (CsvException e) {
+//            System.out.println(e.getLocalizedMessage());
+//        }
+//        Interactions.login("superman","Admin123");
+        HttpClientApp.invoke("superman","Admin123");
     }
 
     protected static Map<String, Integer> validateInput()
