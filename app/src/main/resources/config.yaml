@@ -5,5 +5,5 @@ patientRegistrationStartDay: "2014-02-11"
 baseUrl : https://demo-v94.mybahmni.org
 regInitial: PERF
 patientProfileCount: 50
-sCreateContact: y
+sCreateContact: n
 contactCount: 50
