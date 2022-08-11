@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class TestDataGenApp {
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws InterruptedException {
         String isGradleRun=System.getProperty("isGradle");
         Map<String, Integer> userInput = (isGradleRun==null) ? validateInput():validateArgsInput();
         try {
@@ -25,8 +25,14 @@ public class TestDataGenApp {
         } catch (CsvException e) {
             System.out.println(e.getLocalizedMessage());
         }
-        Interactions.login("superman","Admin123");
-        Interactions.getSessionId();
+        if(userInput.get("sUploadCsv")==1)
+        {
+            Interactions.login(Constant.user, Constant.password);
+            Interactions.getSessionId();
+            Interactions.uploadPatient();
+            Thread.sleep(10000);
+            Interactions.uploadEncounters();
+        }
     }
 
     protected static Map<String, Integer> validateInput()
@@ -55,11 +61,19 @@ public class TestDataGenApp {
 
             totalCount.put("contactCount", contactCount);
         }
+
         else if(sCreateContact.equalsIgnoreCase("n"))
         {
             totalCount.put("contactCount", 0);
         }
-
+        System.out.println("Do you need to upload csv? (y/n):");
+        String sUploadCsv = scanner.next();
+        if(sUploadCsv.equalsIgnoreCase("y")) {
+            totalCount.put("sUploadCsv", 1);
+        }
+        else if(sUploadCsv.equalsIgnoreCase("n")) {
+            totalCount.put("sUploadCsv", 0);
+        }
         totalCount.put("profileCount", patientProfileCount);
 
 
@@ -95,7 +109,14 @@ public class TestDataGenApp {
         {
             totalCount.put("contactCount", 0);
         }
-
+        String sUploadCsv=validProperty("sUploadCsv");
+        System.out.println("Do you need to upload csv? (y/n):"+sUploadCsv);
+        if(sUploadCsv.equalsIgnoreCase("y")) {
+            totalCount.put("sUploadCsv", 1);
+        }
+        else if(sUploadCsv.equalsIgnoreCase("n")) {
+            totalCount.put("sUploadCsv", 0);
+        }
         totalCount.put("profileCount", patientProfileCount);
 
 
