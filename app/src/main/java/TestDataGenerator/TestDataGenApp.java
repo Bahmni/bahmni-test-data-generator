@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class TestDataGenApp {
 
-    public static void main(String args[]) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+    public static void main(String args[]) {
         String isGradleRun=System.getProperty("isGradle");
         Map<String, Integer> userInput = (isGradleRun==null) ? validateInput():validateArgsInput();
         try {
@@ -26,6 +26,7 @@ public class TestDataGenApp {
             System.out.println(e.getLocalizedMessage());
         }
         Interactions.login("superman","Admin123");
+        Interactions.getSessionId();
     }
 
     protected static Map<String, Integer> validateInput()
@@ -53,6 +54,10 @@ public class TestDataGenApp {
                 }
 
             totalCount.put("contactCount", contactCount);
+        }
+        else if(sCreateContact.equalsIgnoreCase("n"))
+        {
+            totalCount.put("contactCount", 0);
         }
 
         totalCount.put("profileCount", patientProfileCount);
@@ -86,6 +91,10 @@ public class TestDataGenApp {
 
             totalCount.put("contactCount", contactCount);
         }
+        else if(sCreateContact.equalsIgnoreCase("n"))
+        {
+            totalCount.put("contactCount", 0);
+        }
 
         totalCount.put("profileCount", patientProfileCount);
 
@@ -115,3 +124,4 @@ public class TestDataGenApp {
         return result;
     }
 }
+
