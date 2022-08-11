@@ -2,19 +2,20 @@ package TestDataGenerator;
 
 import com.opencsv.exceptions.CsvException;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class TestDataGenApp {
 
-    public static void main(String args[])
-    {
-        /*Takes inputs from runTime*/
-        //Map<String, Integer> userInput = validateInput();
-        /* Takes input from Arguments */
-        Map<String, Integer> userInput = validateArgsInput();
+    public static void main(String args[]) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        String isGradleRun=System.getProperty("isGradle");
+        Map<String, Integer> userInput = (isGradleRun==null) ? validateInput():validateArgsInput();
         try {
             createCSVs(userInput.get("profileCount"), userInput.get("contactCount"));
         } catch (IOException e) {
