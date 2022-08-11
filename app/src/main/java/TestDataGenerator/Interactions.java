@@ -1,14 +1,17 @@
 package TestDataGenerator;
 
+import java.io.IOException;
 import java.net.http.HttpHeaders;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Interactions
 {
-    public static void login(String uname,String password)
-    {
+    public static void login(String uname,String password) throws IOException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         Map<String,String> params=new HashMap<>();
         params.put("v","custom:(username,uuid,person:(uuid,),privileges:(name,retired),userProperties)");
         params.put("username","superman");

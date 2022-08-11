@@ -16,7 +16,7 @@ import java.util.List;
 public class ContactProfile {
 
      protected List<String[]> getShuffledPatientProfilesToObject() throws IOException, CsvException {
-          FileReader patientRegFile = new FileReader(Constant.patientProfileFileName);
+          FileReader patientRegFile = new FileReader(System.getProperty("user.dir")+"/"+Constant.patientProfileFileName);
           CSVReader csvReader = new CSVReaderBuilder(patientRegFile)
                   .withSkipLines(1)
                   .build();
