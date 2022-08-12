@@ -39,12 +39,20 @@ import java.util.Map;
 
 public class Request {
 
-    static BasicCookieStore cookieStore ;
+    private static BasicCookieStore cookieStore ;
+    private static String uuid;
 
-    public static void post(String path, Map<String, String> headers, String file) {
+    public static void setUuid(String uuid) {
+        Request.uuid = uuid;
+    }
+
+    public static String post(String path, Map<String, String> headers, String file)
+    {
+        String responseBody = null;
         try {
             HttpClientContext context = new HttpClientContext();
-            BasicClientCookie cookie=new BasicClientCookie("bahmni.user.location",URLEncoder.encode(Constant.location, StandardCharsets.UTF_8));
+            BasicClientCookie cookie=new BasicClientCookie("bahmni.user.location",URLEncoder.encode("{name:"+Constant.location+",uuid:"+uuid+"}", StandardCharsets.UTF_8));
+
             cookie.setDomain(Constant.baseUrl.split("//")[1]);
             cookie.setPath("/");
             BasicClientCookie cookie1=new BasicClientCookie("app.clinical.grantProviderAccessData",URLEncoder.encode("null", StandardCharsets.UTF_8));
@@ -59,7 +67,7 @@ public class Request {
 
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
                     .build();
 
             HttpPost post = new HttpPost(Constant.baseUrl + path);
@@ -77,7 +85,7 @@ public class Request {
             HttpEntity entity = builder.build();
             post.setEntity(entity);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            String responseBody = httpclient.execute(post, responseHandler, context);
+            responseBody = httpclient.execute(post, responseHandler, context);
             cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e)
@@ -85,15 +93,17 @@ public class Request {
 
         }
 
-
+            return responseBody;
     }
 
-    public static void get(String path, Map<String, String> headers, Map<String, String> params) {
+    public static String get(String path, Map<String, String> headers, Map<String, String> params)
+    {
+        String responseBody=null;
         try {
             HttpClientContext context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
                     .build();
 
             HttpGet get = new HttpGet(Constant.baseUrl + path);
@@ -112,12 +122,36 @@ public class Request {
                     .build();
             ((HttpRequestBase) get).setURI(uri);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            String responseBody = httpclient.execute(get, responseHandler, context);
+            responseBody = httpclient.execute(get, responseHandler, context);
              cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e) {
 
         }
+        return responseBody;
+    }
+    public static String get(String path, Map<String, String> headers)
+    {
+        String responseBody=null;
+        try {
+            HttpClientContext context = new HttpClientContext();
+            CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
+                    .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
+                    .build();
 
+            HttpGet get = new HttpGet(Constant.baseUrl + path);
+            headers.entrySet().forEach(e ->
+            {
+                get.setHeader(e.getKey(), e.getValue());
+            });
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            responseBody = httpclient.execute(get, responseHandler, context);
+            cookieStore = (BasicCookieStore) context.getCookieStore();
+
+        } catch (Exception e) {
+
+        }
+        return responseBody;
     }
 }

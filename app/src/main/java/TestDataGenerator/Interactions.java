@@ -1,6 +1,7 @@
 package TestDataGenerator;
 
 import org.apache.http.cookie.Cookie;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class Interactions
         Request.get(path,headers,params);
 
     }
-    public  static void uploadPatient()
+    public  static void uploadPatients()
     {
         Map<String,String> headers=new HashMap<>();
         headers.put( "Accept","*/*");
@@ -59,8 +60,28 @@ public class Interactions
         Request.post(path,headers,System.getProperty("user.dir")+"/"+Constant.contactProfileFileName);
     }
 
-    public static void verifyUpload()
-    {
 
+    public static  void setUserLocation(String loc)
+    {
+        Map<String,String> params=new HashMap<>();
+        Map<String,String> headers=new HashMap<>();
+        params.put("operator","ALL");
+        params.put("s","byTags");
+        params.put("tags","Login+Location");
+        params.put("v","default");
+        headers.put("Accept","application/json, text/plain, */*");
+        String path="/openmrs/ws/rest/v1/location";
+        Parser parser=new Parser(Request.get(path,headers,params));
+        Map<String,String> map=Parser.zipToMap(parser.getValuesForGivenKey("name"),parser.getValuesForGivenKey("uuid"));
+        Request.setUuid(map.get(loc));
+    }
+    public static boolean verifyUpload()
+    {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json, text/plain, */*");
+        String path = "/openmrs/ws/rest/v1/bahmnicore/admin/upload/status";
+        Parser parser = new Parser(Request.get(path, headers));
+        Assertions.assertEquals("COMPLETED", parser.getStringFromArray("status"));
+        return true;
     }
 }
