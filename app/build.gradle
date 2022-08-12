@@ -37,6 +37,8 @@ dependencies {
     implementation ('com.github.javafaker:javafaker:1.0.2') //{ exclude module: 'org.yaml' }
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation 'org.apache.httpcomponents:httpmime:4.5.13'
+    implementation 'org.json:json:20180813'
+
 
 
 }

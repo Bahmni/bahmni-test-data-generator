@@ -27,11 +27,15 @@ public class TestDataGenApp {
         }
         if(userInput.get("sUploadCsv")==1)
         {
+            Interactions.setUserLocation(validProperty("location"));
             Interactions.login(Constant.user, Constant.password);
             Interactions.getSessionId();
-            Interactions.uploadPatient();
+            Interactions.uploadPatients();
             Thread.sleep(10000);
             Interactions.uploadEncounters();
+            Thread.sleep(5000);
+            Interactions.verifyUpload();
+
         }
     }
 
