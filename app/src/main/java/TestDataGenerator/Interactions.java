@@ -30,6 +30,7 @@ public class Interactions
         headers.put("Authorization", "Basic " + encoding);
         String path="/openmrs/ws/rest/v1/user";
         Request.get(path,headers,params);
+        Assertions.assertTrue(Request.getCookieStore().toString().contains("reporting_session"));
     }
     public static void getSessionId()
     {
@@ -38,7 +39,9 @@ public class Interactions
         params.put("v","custom:(uuid)");
         headers.put("Accept","application/json, text/plain, */*");
         String path="/openmrs/ws/rest/v1/session";
-        Request.get(path,headers,params);
+        Parser parser=new Parser(Request.get(path,headers,params));
+        Assertions.assertEquals("true",parser.get("authenticated").toString());
+        Assertions.assertTrue(Request.getCookieStore().toString().contains("JSESSIONID"));
 
     }
     public  static void uploadPatients()
@@ -73,15 +76,22 @@ public class Interactions
         String path="/openmrs/ws/rest/v1/location";
         Parser parser=new Parser(Request.get(path,headers,params));
         Map<String,String> map=Parser.zipToMap(parser.getValuesForGivenKey("name"),parser.getValuesForGivenKey("uuid"));
+        Assertions.assertTrue(map.containsKey(loc));
         Request.setUuid(map.get(loc));
     }
-    public static boolean verifyUpload()
-    {
+    public static boolean verifyUpload() {
+        boolean flag=false;
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json, text/plain, */*");
         String path = "/openmrs/ws/rest/v1/bahmnicore/admin/upload/status";
         Parser parser = new Parser(Request.get(path, headers));
-        Assertions.assertEquals("COMPLETED", parser.getStringFromArray("status"));
-        return true;
+        String status=parser.getStringFromArray("status");
+        if (status.equals("COMPLETED"))
+            flag= true;
+        else if(status.equals("COMPLETED_WITH_ERRORS"))
+            throw new RuntimeException("UPLOAD COMPLETED_WITH_ERRORS");
+        else if(status.equals("IN_PROGRESS"))
+            verifyUpload();
+            return flag;
     }
 }

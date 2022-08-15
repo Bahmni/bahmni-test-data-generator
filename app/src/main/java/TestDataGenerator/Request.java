@@ -1,10 +1,7 @@
 package TestDataGenerator;
 
 
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -28,6 +25,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -44,6 +42,10 @@ public class Request {
 
     public static void setUuid(String uuid) {
         Request.uuid = uuid;
+    }
+
+    public static BasicCookieStore getCookieStore() {
+        return cookieStore;
     }
 
     public static String post(String path, Map<String, String> headers, String file)
@@ -67,7 +69,7 @@ public class Request {
 
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
             HttpPost post = new HttpPost(Constant.baseUrl + path);
@@ -85,7 +87,9 @@ public class Request {
             HttpEntity entity = builder.build();
             post.setEntity(entity);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            responseBody = httpclient.execute(post, responseHandler, context);
+            HttpResponse response=httpclient.execute(post,context);
+            responseBody = responseHandler.handleResponse(response);
+            Assertions.assertEquals(response.getStatusLine().getStatusCode(),200);
             cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e)
@@ -103,7 +107,7 @@ public class Request {
             HttpClientContext context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
             HttpGet get = new HttpGet(Constant.baseUrl + path);
@@ -122,7 +126,9 @@ public class Request {
                     .build();
             ((HttpRequestBase) get).setURI(uri);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            responseBody = httpclient.execute(get, responseHandler, context);
+            HttpResponse response=httpclient.execute(get,context);
+            responseBody = responseHandler.handleResponse(response);
+            Assertions.assertEquals(response.getStatusLine().getStatusCode(),200);
              cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e) {
@@ -137,7 +143,7 @@ public class Request {
             HttpClientContext context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
             HttpGet get = new HttpGet(Constant.baseUrl + path);
@@ -146,7 +152,9 @@ public class Request {
                 get.setHeader(e.getKey(), e.getValue());
             });
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            responseBody = httpclient.execute(get, responseHandler, context);
+            HttpResponse response=httpclient.execute(get,context);
+            responseBody = responseHandler.handleResponse(response);
+            Assertions.assertEquals(response.getStatusLine().getStatusCode(),200);
             cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e) {
