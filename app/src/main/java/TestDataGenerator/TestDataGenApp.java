@@ -18,24 +18,25 @@ public class TestDataGenApp {
         Map<String, Integer> userInput = (isGradleRun==null) ? validateInput():validateArgsInput();
         try {
             createCSVs(userInput.get("profileCount"), userInput.get("contactCount"));
-        } catch (IOException e) {
+            if(userInput.get("sUploadCsv")==1)
+            {
+                Interactions.setUserLocation(validProperty("location"));
+                Interactions.login(validProperty("user"), validProperty("password"));
+                Interactions.getSessionId();
+                Interactions.uploadPatients();
+                Interactions.verifyUpload();
+                Interactions.uploadEncounters();
+                Interactions.verifyUpload();
+
+            }
+        }
+
+        catch (IOException e) {
             System.out.println(e.getLocalizedMessage());
         } catch (ParseException e) {
             System.out.println(e.getLocalizedMessage());
         } catch (CsvException e) {
             System.out.println(e.getLocalizedMessage());
-        }
-        if(userInput.get("sUploadCsv")==1)
-        {
-            Interactions.setUserLocation(validProperty("location"));
-            Interactions.login(Constant.user, Constant.password);
-            Interactions.getSessionId();
-            Interactions.uploadPatients();
-            Thread.sleep(10000);
-            Interactions.uploadEncounters();
-            Thread.sleep(5000);
-            Interactions.verifyUpload();
-
         }
     }
 
