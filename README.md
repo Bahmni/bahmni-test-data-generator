@@ -3,10 +3,10 @@ Test data generator
 ---
 This program creates patient and encounters CSV files which can be either uploaded manually into the app using admin console-> import feature or the program itself uploads to the configured Bahmni env. The program assumes that Bahmni is under default configuration. The CSVs are designed accordingly. In case your instance of Bahmni has customization, update the code accordingly
 
-It uses java-faker library to create random data. You can use JDK 11 or higher.
-It uses org.apache.httpcomponents and org.apache.httpcomponents:httpmime to make connection with the bahmni core apis
-This library provides options to skip the ssl certificate validation and better cookies handling
-It uses org.json:json to parse responses
+It uses java-faker library to create random data. You can use JDK 11 or higher .
+It uses org.apache.httpcomponents and org.apache.httpcomponents:httpmime to make connection with the bahmni core apis .
+This library provides options to skip the ssl certificate validation and better cookies handling .
+It uses org.json:json to parse responses .
 
 
 
