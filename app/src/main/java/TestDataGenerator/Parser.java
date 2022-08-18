@@ -37,7 +37,7 @@ public class Parser
     {
         JSONArray jrr= new JSONArray(response);
         JSONObject job=(JSONObject) jrr.get(0);
-        return job.getString("status");
+        return job.getString(path);
 
     }
 

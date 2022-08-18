@@ -10,13 +10,13 @@ import java.util.Map;
 
 public class Constant {
     static String patientProfileFileName = getProperties().get("patientProfileFileName").toString();
-    static String contactProfileFileName = getProperties().get("contactProfileFileName").toString();
+    static String contactProfileFileName = getProperties().get("encounterProfileFileName").toString();
     static int registrationIndexStartPoint = (Integer) getProperties().get("registrationIndexStartPoint");
     static String patientRegistrationStartDay = getProperties().get("patientRegistrationStartDay").toString();
     static String regInitial = getProperties().get("regInitial").toString();
-    static String patientProfileCount =  getProperties().get("patientProfileCount").toString();
-    static String sCreateContact =  getProperties().get("sCreateContact").toString();
-    static String contactCount =  getProperties().get("contactCount").toString();
+    static String PATIENT_COUNT =  getProperties().get("PATIENT_COUNT").toString();
+    static String sCreateEncounter =  getProperties().get("sCreateEncounter").toString();
+    static String ENCOUNTER_COUNT =  getProperties().get("ENCOUNTER_COUNT").toString();
     static String baseUrl=getProperties().get("baseUrl").toString();
     static String user=getProperties().get("user").toString();
     static String password=getProperties().get("password").toString();

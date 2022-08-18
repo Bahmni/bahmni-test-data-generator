@@ -86,10 +86,11 @@ public class Interactions
         String path = "/openmrs/ws/rest/v1/bahmnicore/admin/upload/status";
         Parser parser = new Parser(Request.get(path, headers));
         String status=parser.getStringFromArray("status");
+        String fileName=parser.getStringFromArray("originalFileName");
         if (status.equals("COMPLETED"))
             flag= true;
         else if(status.equals("COMPLETED_WITH_ERRORS"))
-            throw new RuntimeException("UPLOAD COMPLETED_WITH_ERRORS");
+            throw new RuntimeException(fileName+" : "+status);
         else if(status.equals("IN_PROGRESS"))
             verifyUpload();
             return flag;

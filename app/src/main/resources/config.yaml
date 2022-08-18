@@ -1,5 +1,5 @@
 patientProfileFileName: output/registrations.csv
-contactProfileFileName: output/encounters.csv
+encounterProfileFileName: output/encounters.csv
 registrationIndexStartPoint: 1011
 patientRegistrationStartDay: "2014-02-11"
 baseUrl : https://demo-v94.mybahmni.org
@@ -8,7 +8,7 @@ password: Admin123
 location: Registration Desk
 
 regInitial: PERF
-patientProfileCount: 10
-sCreateContact: y
-contactCount: 10
+PATIENT_COUNT: 10
+sCreateEncounter: y
+ENCOUNTER_COUNT: 10
 sUploadCsv: y

@@ -17,7 +17,7 @@ public class TestDataGenApp {
         String isGradleRun=System.getProperty("isGradle");
         Map<String, Integer> userInput = (isGradleRun==null) ? validateInput():validateArgsInput();
         try {
-            createCSVs(userInput.get("profileCount"), userInput.get("contactCount"));
+            createCSVs(userInput.get("PATIENT_COUNT"), userInput.get("ENCOUNTER_COUNT"));
             if(userInput.get("sUploadCsv")==1)
             {
                 Interactions.setUserLocation(validProperty("location"));
@@ -42,34 +42,33 @@ public class TestDataGenApp {
 
     protected static Map<String, Integer> validateInput()
     {
-        int patientProfileCount = 0;
-//        int contactCount = 0;
+        int PATIENT_COUNT = 0;
         Map<String, Integer> totalCount = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the number of patient profiles needed: ");
-        patientProfileCount = scanner.nextInt();
+        PATIENT_COUNT = scanner.nextInt();
 
-        System.out.println("Do you need contact csv to be created? (y/n):");
-        String sCreateContact = scanner.next();
+        System.out.println("Do you need encounters csv to be created? (y/n):");
+        String sCreateEncounter = scanner.next();
 
-        if(sCreateContact.equalsIgnoreCase("y")) {
-            System.out.println("Enter the number of profiles need to have contacts from above. " +
-                    "Enter a number between 0 and "+patientProfileCount);
-            int contactCount = scanner.nextInt();
+        if(sCreateEncounter.equalsIgnoreCase("y")) {
+            System.out.println("Enter the number of profiles need to have encounters from above. " +
+                    "Enter a number between 0 and "+PATIENT_COUNT);
+            int ENCOUNTER_COUNT = scanner.nextInt();
 
-            while(contactCount > patientProfileCount)
+            while(ENCOUNTER_COUNT > PATIENT_COUNT)
                 {
                     System.out.println("Enter the number of lesser than of patient profile number entered above.");
-                    contactCount = scanner.nextInt();
+                    ENCOUNTER_COUNT = scanner.nextInt();
                 }
 
-            totalCount.put("contactCount", contactCount);
+            totalCount.put("ENCOUNTER_COUNT", ENCOUNTER_COUNT);
         }
 
-        else if(sCreateContact.equalsIgnoreCase("n"))
+        else if(sCreateEncounter.equalsIgnoreCase("n"))
         {
-            totalCount.put("contactCount", 0);
+            totalCount.put("ENCOUNTER_COUNT", 0);
         }
         System.out.println("Do you need to upload csv? (y/n):");
         String sUploadCsv = scanner.next();
@@ -79,7 +78,7 @@ public class TestDataGenApp {
         else if(sUploadCsv.equalsIgnoreCase("n")) {
             totalCount.put("sUploadCsv", 0);
         }
-        totalCount.put("profileCount", patientProfileCount);
+        totalCount.put("PATIENT_COUNT", PATIENT_COUNT);
 
 
         return totalCount;
@@ -91,26 +90,26 @@ public class TestDataGenApp {
 //        int contactCount = 0;
         Map<String, Integer> totalCount = new HashMap<>();
 
-       int patientProfileCount = Integer.parseInt(validProperty("patientProfileCount"));
-        System.out.println("Entered number of patient profiles : "+patientProfileCount);
+       int PATIENT_COUNT = Integer.parseInt(validProperty("PATIENT_COUNT"));
+        System.out.println("Entered number of patient profiles : "+PATIENT_COUNT);
 
 
-        String sCreateContact = validProperty("sCreateContact");
-        System.out.println("Do you need contact csv to be created? (y/n) : "+sCreateContact);
+        String sCreateEncounter = validProperty("sCreateEncounter");
+        System.out.println("Do you need contact csv to be created? (y/n) : "+sCreateEncounter);
 
-        if(sCreateContact.equalsIgnoreCase("y")) {
+        if(sCreateEncounter.equalsIgnoreCase("y")) {
 
-            int contactCount = Integer.parseInt(validProperty("contactCount"));
-            System.out.println("Entered number of profiles need to have contacts from above : "+contactCount);
+            int ENCOUNTER_COUNT = Integer.parseInt(validProperty("ENCOUNTER_COUNT"));
+            System.out.println("Entered number of profiles need to have contacts from above : "+ENCOUNTER_COUNT);
 
-            if(contactCount > patientProfileCount)
+            if(ENCOUNTER_COUNT > PATIENT_COUNT)
             {
                 throw new RuntimeException("contact count cannot be greater than patient count");
             }
 
-            totalCount.put("contactCount", contactCount);
+            totalCount.put("ENCOUNTER_COUNT", ENCOUNTER_COUNT);
         }
-        else if(sCreateContact.equalsIgnoreCase("n"))
+        else if(sCreateEncounter.equalsIgnoreCase("n"))
         {
             totalCount.put("contactCount", 0);
         }
@@ -122,7 +121,7 @@ public class TestDataGenApp {
         else if(sUploadCsv.equalsIgnoreCase("n")) {
             totalCount.put("sUploadCsv", 0);
         }
-        totalCount.put("profileCount", patientProfileCount);
+        totalCount.put("PATIENT_COUNT", PATIENT_COUNT);
 
 
         return totalCount;
@@ -145,7 +144,7 @@ public class TestDataGenApp {
     }
     protected static String validProperty(String str)
     {
-        String prop=System.getProperty(str);
+        String prop=System.getenv(str);
         String result = (prop == null) ? Constant.getProperty(str) : prop;
         return result;
     }
