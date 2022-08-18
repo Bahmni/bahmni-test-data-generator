@@ -33,8 +33,8 @@ On successful execution two CSV files will be created in output folder and will 
 
 Option 3:
 
-Run ./gradlew run -DpatientProfileCount=10 -DsCreateContact=y -DcontactCount=10 -DsUploadCsv=y (all the values are customizable)
-It will pick up the runtime arguments which is passed above and overrides the default values.
+Run export PATIENT_COUNT=10 && ./gradlew run  (set the environment variables)
+It will pick up the runtime arguments which is passed from environmet variables and overrides the default values.
 On successful execution two CSV files will be created in output folder and will be uploaded to configured env .
 
 For more information - click [here](https://bahmni.atlassian.net/l/cp/QVEX0AYk)
