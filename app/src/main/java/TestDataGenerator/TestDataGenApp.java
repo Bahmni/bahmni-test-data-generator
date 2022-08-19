@@ -91,7 +91,7 @@ public class TestDataGenApp {
 //        int contactCount = 0;
         Map<String, Integer> totalCount = new HashMap<>();
 
-       int patientProfileCount = Integer.parseInt(validProperty("patientProfileCount"));
+       int patientProfileCount = Integer.parseInt(validProperty("PATIENT_COUNT"));
         System.out.println("Entered number of patient profiles : "+patientProfileCount);
 
 
@@ -100,7 +100,7 @@ public class TestDataGenApp {
 
         if(sCreateContact.equalsIgnoreCase("y")) {
 
-            int contactCount = Integer.parseInt(validProperty("contactCount"));
+            int contactCount = Integer.parseInt(validProperty("ENCOUNTER_COUNT"));
             System.out.println("Entered number of profiles need to have contacts from above : "+contactCount);
 
             if(contactCount > patientProfileCount)
@@ -145,7 +145,7 @@ public class TestDataGenApp {
     }
     protected static String validProperty(String str)
     {
-        String prop=System.getProperty(str);
+        String prop=System.getenv(str);
         String result = (prop == null) ? Constant.getProperty(str) : prop;
         return result;
     }

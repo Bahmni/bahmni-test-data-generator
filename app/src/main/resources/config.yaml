@@ -8,7 +8,7 @@ password: Admin123
 location: Registration Desk
 
 regInitial: PERF
-patientProfileCount: 10
+PATIENT_COUNT: 10
 sCreateContact: y
-contactCount: 10
+ENCOUNTER_COUNT: 10
 sUploadCsv: y
