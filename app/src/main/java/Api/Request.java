@@ -1,10 +1,9 @@
-package TestDataGenerator;
+package Api;
 
 
+import Constants.Constant;
 import org.apache.http.*;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -12,10 +11,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustAllStrategy;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.EntityTemplate;
-import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -28,7 +24,6 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
-import java.io.OutputStream;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -44,24 +39,28 @@ public class Request {
         Request.uuid = uuid;
     }
 
+    public static String getUuid()
+    {
+        return uuid;
+    }
     public static BasicCookieStore getCookieStore() {
         return cookieStore;
     }
 
-    public static String post(String path, Map<String, String> headers, String file)
+    public  HttpResponse post(String path, Map<String, String> headers, String file)
     {
-        String responseBody = null;
+        HttpResponse response = null;
         try {
             HttpClientContext context = new HttpClientContext();
-            BasicClientCookie cookie=new BasicClientCookie("bahmni.user.location",URLEncoder.encode("{name:"+Constant.location+",uuid:"+uuid+"}", StandardCharsets.UTF_8));
+            BasicClientCookie cookie=new BasicClientCookie("bahmni.user.location",URLEncoder.encode("{name:"+ Constant.LOCATION+",uuid:"+uuid+"}", StandardCharsets.UTF_8));
 
-            cookie.setDomain(Constant.baseUrl.split("//")[1]);
+            cookie.setDomain(Constant.BASEURL.split("//")[1]);
             cookie.setPath("/");
             BasicClientCookie cookie1=new BasicClientCookie("app.clinical.grantProviderAccessData",URLEncoder.encode("null", StandardCharsets.UTF_8));
-            cookie1.setDomain(Constant.baseUrl.split("//")[1]);
+            cookie1.setDomain(Constant.BASEURL.split("//")[1]);
             cookie1.setPath("/");
-            BasicClientCookie cookie2=new BasicClientCookie("bahmni.user",URLEncoder.encode(Constant.user, StandardCharsets.UTF_8));
-            cookie2.setDomain(Constant.baseUrl.split("//")[1]);
+            BasicClientCookie cookie2=new BasicClientCookie("bahmni.user",URLEncoder.encode(Constant.USERNAME, StandardCharsets.UTF_8));
+            cookie2.setDomain(Constant.BASEURL.split("//")[1]);
             cookie2.setPath("/");
             cookieStore.addCookie(cookie);
             cookieStore.addCookie(cookie1);
@@ -72,7 +71,7 @@ public class Request {
                     .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
-            HttpPost post = new HttpPost(Constant.baseUrl + path);
+            HttpPost post = new HttpPost(Constant.BASEURL + path);
 
             headers.entrySet().forEach(e ->
             {
@@ -86,9 +85,7 @@ public class Request {
             builder.addBinaryBody("file", csvfile, ContentType.MULTIPART_FORM_DATA, csvFileName);
             HttpEntity entity = builder.build();
             post.setEntity(entity);
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            HttpResponse response=httpclient.execute(post,context);
-            responseBody = responseHandler.handleResponse(response);
+            response=httpclient.execute(post,context);
             Assertions.assertEquals(response.getStatusLine().getStatusCode(),200);
             cookieStore = (BasicCookieStore) context.getCookieStore();
 
@@ -97,12 +94,12 @@ public class Request {
 
         }
 
-            return responseBody;
+            return response;
     }
 
-    public static String get(String path, Map<String, String> headers, Map<String, String> params)
+    public  HttpResponse get(String path, Map<String, String> headers, Map<String, String> params)
     {
-        String responseBody=null;
+        HttpResponse response=null;
         try {
             HttpClientContext context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
@@ -110,7 +107,7 @@ public class Request {
                     .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
-            HttpGet get = new HttpGet(Constant.baseUrl + path);
+            HttpGet get = new HttpGet(Constant.BASEURL + path);
             headers.entrySet().forEach(e ->
             {
                 get.setHeader(e.getKey(), e.getValue());
@@ -125,20 +122,18 @@ public class Request {
                     .addParameters(nameValuePairs)
                     .build();
             ((HttpRequestBase) get).setURI(uri);
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            HttpResponse response=httpclient.execute(get,context);
-            responseBody = responseHandler.handleResponse(response);
+            response=httpclient.execute(get,context);
             Assertions.assertEquals(response.getStatusLine().getStatusCode(),200);
              cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e) {
 
         }
-        return responseBody;
+        return response;
     }
-    public static String get(String path, Map<String, String> headers)
+    public HttpResponse get(String path, Map<String, String> headers)
     {
-        String responseBody=null;
+        HttpResponse response=null;
         try {
             HttpClientContext context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
@@ -146,20 +141,18 @@ public class Request {
                     .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
-            HttpGet get = new HttpGet(Constant.baseUrl + path);
+            HttpGet get = new HttpGet(Constant.BASEURL + path);
             headers.entrySet().forEach(e ->
             {
                 get.setHeader(e.getKey(), e.getValue());
             });
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            HttpResponse response=httpclient.execute(get,context);
-            responseBody = responseHandler.handleResponse(response);
+            response=httpclient.execute(get,context);
             Assertions.assertEquals(response.getStatusLine().getStatusCode(),200);
             cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e) {
 
         }
-        return responseBody;
+        return response;
     }
 }

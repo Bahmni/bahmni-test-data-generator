@@ -1,4 +1,4 @@
-package TestDataGenerator;
+package Constants;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -9,25 +9,25 @@ import java.io.InputStream;
 import java.util.Map;
 
 public class Constant {
-    static String patientProfileFileName = getProperties().get("patientProfileFileName").toString();
-    static String contactProfileFileName = getProperties().get("contactProfileFileName").toString();
-    static int registrationIndexStartPoint = (Integer) getProperties().get("registrationIndexStartPoint");
-    static String patientRegistrationStartDay = getProperties().get("patientRegistrationStartDay").toString();
-    static String regInitial = getProperties().get("regInitial").toString();
-    static String patientProfileCount =  getProperties().get("PATIENT_COUNT").toString();
-    static String sCreateContact =  getProperties().get("sCreateContact").toString();
-    static String contactCount =  getProperties().get("ENCOUNTER_COUNT").toString();
-    static String baseUrl=getProperties().get("baseUrl").toString();
-    static String user=getProperties().get("user").toString();
-    static String password=getProperties().get("password").toString();
-    static String location=getProperties().get("location").toString();
+    public static String PATIENT_PROFILE_FILE_NAME = getProperties().get("PATIENT_PROFILE_FILE_NAME").toString();
+    public static String ENCOUNTER_PROFILE_FILE_NAME = getProperties().get("ENCOUNTER_PROFILE_FILE_NAME").toString();
+    public static int REGISTRATION_INDEX_START_POINT = (Integer) getProperties().get("REGISTRATION_INDEX_START_POINT");
+    public static String PATIENT_REGISTRATION_START_DAY = getProperties().get("PATIENT_REGISTRATION_START_DAY").toString();
+    public static String REG_INITIAL = getProperties().get("REG_INITIAL").toString();
+    public static String PATIENT_COUNT =  getProperties().get("PATIENT_COUNT").toString();
+    public static String S_CREATE_ENCOUNTER =  getProperties().get("S_CREATE_ENCOUNTER").toString();
+    public static String ENCOUNTER_COUNT =  getProperties().get("ENCOUNTER_COUNT").toString();
+    public static String BASEURL=getProperties().get("BASEURL").toString();
+    public static String USERNAME=getProperties().get("USERNAME").toString();
+    public static String PASSWORD=getProperties().get("PASSWORD").toString();
+    public static String LOCATION=getProperties().get("LOCATION").toString();
 
 
 
-    static String[] registrationHeader = {"Registration Number","Registration Date","First Name","Middle Name","Last Name","Gender",
+    public static String[] registrationHeader = {"Registration Number","Registration Date","First Name","Middle Name","Last Name","Gender",
             "Birth Date", "Address.Village", "Address.Tehsil", "Address.District", "Address.State"};
 
-    static String[] contactHeader = {"Registration Number","encounterType","visitType","Patient.Name","Patient.AGE",
+    public static String[] contactHeader = {"Registration Number","encounterType","visitType","Patient.Name","Patient.AGE",
             "Patient.Gender","Patient.Village","Visit Start Date","Visit End Date","Repeat.1.EncounterDate",
             "Repeat.1.Obs.Chief Complaint Duration","Repeat.1.Obs.Chief Complaint Notes",
             "Repeat.1.Obs.History Notes","Repeat.1.Obs.Examination Notes","Repeat.1.Obs.Smoking History",

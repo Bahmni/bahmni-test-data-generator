@@ -1,5 +1,9 @@
 package TestDataGenerator;
 
+import CSVwriter.DataWriter;
+import Constants.Constant;
+import Profiles.ContactProfile;
+import Profiles.PatientProfile;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
@@ -9,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -20,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class ContactProfileTest {
+class EncounterProfileTest {
 
     ContactProfile cp = new ContactProfile();
     @Test
@@ -31,7 +34,7 @@ class ContactProfileTest {
         profiles.add(new String[]{"a"});
         profiles.add(new String[]{"b"});
 
-        String fileName = Constant.patientProfileFileName;
+        String fileName = Constant.PATIENT_PROFILE_FILE_NAME;
         dataWriter.writeDataIntoCSV(profiles, fileName);
         List<String[]> obj = cp.getShuffledPatientProfilesToObject();
         assertEquals(obj.size(), 2);
@@ -43,7 +46,7 @@ class ContactProfileTest {
         PatientProfile pf = new PatientProfile();
         pf.writePatientProfileInCSV(1);
         cp.writeContactProfileInCSV(1);
-        FileReader patientRegFile = new FileReader(Constant.contactProfileFileName);
+        FileReader patientRegFile = new FileReader(Constant.ENCOUNTER_PROFILE_FILE_NAME);
         CSVReader csvReader = new CSVReaderBuilder(patientRegFile)
                 .withSkipLines(1)
                 .build();

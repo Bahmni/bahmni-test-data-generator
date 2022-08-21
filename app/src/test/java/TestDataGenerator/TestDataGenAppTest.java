@@ -19,12 +19,12 @@ class TestDataGenAppTest {
     @Test
     void validateInputTest() {
         TestDataGenApp testDataGenApp = new TestDataGenApp();
-        InputStream in1 = new ByteArrayInputStream(("1\ny\n1").getBytes());
+        InputStream in1 = new ByteArrayInputStream(("1\ny\n1\ny").getBytes());
         System.setIn(in1);
 
         Map<String, Integer> inputData = testDataGenApp.validateInput();
-        assertEquals(1, inputData.get("profileCount"));
-        assertEquals(1, inputData.get("contactCount"));
+        assertEquals(1, inputData.get("PATIENT_COUNT"));
+        assertEquals(1, inputData.get("ENCOUNTER_COUNT"));
     }
 
     @Test

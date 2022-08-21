@@ -1,4 +1,4 @@
-package TestDataGenerator;
+package CSVwriter;
 
 import com.opencsv.CSVWriter;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DataWriter {
 
-    protected void writeDataIntoCSV(List<String[]> profiles, String fileName) throws IOException {
+    public void writeDataIntoCSV(List<String[]> profiles, String fileName) throws IOException {
         Files.createDirectories(Paths.get("output"));
         try{
             FileWriter outputFile = new FileWriter(System.getProperty("user.dir")+"/"+fileName);

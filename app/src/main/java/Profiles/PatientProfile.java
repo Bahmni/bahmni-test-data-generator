@@ -1,5 +1,7 @@
-package TestDataGenerator;
+package Profiles;
 
+import Constants.Constant;
+import CSVwriter.DataWriter;
 import com.github.javafaker.Faker;
 
 import java.io.IOException;
@@ -14,7 +16,7 @@ import java.util.Locale;
 public class PatientProfile {
 
     Faker faker = new Faker(new Locale("en-IND"));;
-    protected String[] createPatientProfile()
+    public String[] createPatientProfile()
     {
         String villageDistrict = getTownCityName();
 
@@ -24,27 +26,27 @@ public class PatientProfile {
         return item;
     }
 
-    protected List<String[]> getPatientProfileList(int count)
+    public List<String[]> getPatientProfileList(int count)
     {
         List<String[]> entries = new ArrayList<>();
-        int startPoint = Constant.registrationIndexStartPoint;
+        int startPoint = Constant.REGISTRATION_INDEX_START_POINT;
 
         entries.add(Constant.registrationHeader);
 
         for(int i=1;i<=count;i++)
         {
             String[] pProfile = createPatientProfile();
-            pProfile[0] = Constant.regInitial+faker.random().nextInt(1,10000) +String.valueOf(i+startPoint);
+            pProfile[0] = Constant.REG_INITIAL+faker.random().nextInt(1,10000) +String.valueOf(i+startPoint);
             entries.add(pProfile);
         }
 
         return entries;
     }
 
-    protected void writePatientProfileInCSV(int count) throws IOException
+    public void writePatientProfileInCSV(int count) throws IOException
     {
         DataWriter dataWriter = new DataWriter();
-        String fileName = Constant.patientProfileFileName;
+        String fileName = Constant.PATIENT_PROFILE_FILE_NAME;
         List<String[]> profiles = getPatientProfileList(count);
         dataWriter.writeDataIntoCSV(profiles, fileName);
     }
@@ -53,7 +55,7 @@ public class PatientProfile {
         Date now = new Date();
 
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = Constant.patientRegistrationStartDay;
+        String dateString = Constant.PATIENT_REGISTRATION_START_DAY;
         Date then = null;
         try {
             then = sdf.parse(dateString);
