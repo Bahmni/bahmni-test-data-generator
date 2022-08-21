@@ -1,9 +1,14 @@
-package TestDataGenerator;
+package Jsonparser;
 
 import netscape.javascript.JSObject;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.protocol.HttpRequestHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +18,9 @@ import java.util.stream.IntStream;
 public class Parser
 {
     private static String response;
-    public Parser(String response)
-    {
-        this.response=response;
+    public Parser(HttpResponse response) throws IOException {
+        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+        this.response=responseHandler.handleResponse(response);
     }
 
     public  String getString(String path)
@@ -37,7 +42,7 @@ public class Parser
     {
         JSONArray jrr= new JSONArray(response);
         JSONObject job=(JSONObject) jrr.get(0);
-        return job.getString("status");
+        return job.getString(path);
 
     }
 

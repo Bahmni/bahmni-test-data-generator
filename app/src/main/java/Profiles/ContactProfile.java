@@ -1,5 +1,7 @@
-package TestDataGenerator;
+package Profiles;
 
+import Constants.Constant;
+import CSVwriter.DataWriter;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
@@ -15,8 +17,8 @@ import java.util.List;
 
 public class ContactProfile {
 
-     protected List<String[]> getShuffledPatientProfilesToObject() throws IOException, CsvException {
-          FileReader patientRegFile = new FileReader(System.getProperty("user.dir")+"/"+Constant.patientProfileFileName);
+     public List<String[]> getShuffledPatientProfilesToObject() throws IOException, CsvException {
+          FileReader patientRegFile = new FileReader(System.getProperty("user.dir")+"/"+ Constant.PATIENT_PROFILE_FILE_NAME);
           CSVReader csvReader = new CSVReaderBuilder(patientRegFile)
                   .withSkipLines(1)
                   .build();
@@ -51,13 +53,13 @@ public class ContactProfile {
           return entries;
      }
 
-     protected void writeContactProfileInCSV(int count) throws IOException, ParseException, CsvException {
+     public void writeContactProfileInCSV(int count) throws IOException, ParseException, CsvException {
           DataWriter dataWriter = new DataWriter();
-          String fileName = Constant.contactProfileFileName;
+          String fileName = Constant.ENCOUNTER_PROFILE_FILE_NAME;
           List<String[]> profiles = setContactProfiles(count);
           dataWriter.writeDataIntoCSV(profiles, fileName);
      }
-     private int getPatientAge(String dob) throws ParseException {
+     public int getPatientAge(String dob) throws ParseException {
           LocalDate birthday = LocalDate.parse(dob);
           LocalDate today = LocalDate.now();
           Period period = Period.between(birthday, today);
