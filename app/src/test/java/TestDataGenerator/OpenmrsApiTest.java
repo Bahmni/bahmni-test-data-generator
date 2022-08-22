@@ -13,7 +13,6 @@ import java.io.IOException;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OpenmrsApiTest
 {
-    @Mock
     Openmrs mrs=new Openmrs();
 
     @Test

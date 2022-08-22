@@ -69,7 +69,7 @@ public class Request {
 
             HttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
             post = new HttpPost(Constant.BASEURL + path);
@@ -105,7 +105,7 @@ public class Request {
             context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
             get = new HttpGet(Constant.BASEURL + path);
@@ -138,7 +138,7 @@ public class Request {
             context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
                     .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
-                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).setProxy(HttpHost.create("localhost:8080"))
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
             get = new HttpGet(Constant.BASEURL + path);
