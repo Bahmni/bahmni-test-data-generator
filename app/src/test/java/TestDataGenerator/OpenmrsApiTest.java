@@ -6,11 +6,14 @@ import Jsonparser.Parser;
 import Openmrs.Openmrs;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
+
 import java.io.IOException;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OpenmrsApiTest
 {
+    @Mock
     Openmrs mrs=new Openmrs();
 
     @Test
