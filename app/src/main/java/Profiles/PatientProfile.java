@@ -1,10 +1,9 @@
 package Profiles;
 
+import Config.LoggerConfig;
 import Constants.Constant;
 import CSVwriter.DataWriter;
 import com.github.javafaker.Faker;
-
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,18 +11,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
-public class PatientProfile {
+public class PatientProfile
+{
+    Logger logger= LoggerConfig.LOGGER;
+    Faker faker = new Faker(new Locale("en-IND"));
 
-    Faker faker = new Faker(new Locale("en-IND"));;
     public String[] createPatientProfile()
     {
         String villageDistrict = getTownCityName();
 
-        String[] item = {"x", getRegistrationDate(), getFirstName(), getMiddleName(),
+        return new String[]{"x", getRegistrationDate(), getFirstName(), getMiddleName(),
                 getLastName(), getGender(), getBirthDate(), villageDistrict, getTehsilName(), villageDistrict,
                 getStateName()};
-        return item;
     }
 
     public List<String[]> getPatientProfileList(int count)
@@ -36,14 +37,14 @@ public class PatientProfile {
         for(int i=1;i<=count;i++)
         {
             String[] pProfile = createPatientProfile();
-            pProfile[0] = Constant.REG_INITIAL+faker.random().nextInt(1,10000) +String.valueOf(i+startPoint);
+            pProfile[0] = Constant.REG_INITIAL+faker.random().nextInt(1,10000) + (i + startPoint);
             entries.add(pProfile);
         }
 
         return entries;
     }
 
-    public void writePatientProfileInCSV(int count) throws IOException
+    public void writePatientProfileInCSV(int count)
     {
         DataWriter dataWriter = new DataWriter();
         String fileName = Constant.PATIENT_PROFILE_FILE_NAME;
@@ -60,13 +61,12 @@ public class PatientProfile {
         try {
             then = sdf.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.severe("Could'nt parse registration date "+e.getLocalizedMessage());
         }
         Date randomDate = faker.date().between(then, now);
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strDate = dateFormat.format(randomDate);
-        return strDate;
+        return dateFormat.format(randomDate);
     }
 
     private String getBirthDate() {
@@ -78,13 +78,13 @@ public class PatientProfile {
         try {
             then = sdf.parse(dateString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.severe("Could'nt parse birth date "+e.getLocalizedMessage());
+
         }
         Date randomDate = faker.date().between(then, now);
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strDate = dateFormat.format(randomDate);
-        return strDate;
+        return dateFormat.format(randomDate);
     }
 
     private String getFirstName()

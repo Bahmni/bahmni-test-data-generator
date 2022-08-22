@@ -20,7 +20,7 @@ class DataWriterTest {
     DataWriter dw = new DataWriter();
 
     @Test
-    void writeDataIntoCSVTest() throws IOException {
+    void writeDataIntoCSVTest()  {
         List<String[]> profiles = new ArrayList<>();
         String fileName = "output/mock.csv";
         dw.writeDataIntoCSV(profiles, fileName);
