@@ -28,7 +28,7 @@ class TestDataGenAppTest {
     }
 
     @Test
-    void createCSVsTest() throws IOException, ParseException, CsvException {
+    void createCSVsTest() throws IOException{
         Files.deleteIfExists(Paths.get(System.getProperty("user.dir") + "/output/registrations.csv"));
         Files.deleteIfExists(Paths.get(System.getProperty("user.dir") + "/output/encounters.csv"));
 
@@ -45,7 +45,10 @@ class TestDataGenAppTest {
         testDataGenApp.createCSVs(1,1);
         bEncounterCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")
                 + "/output/encounters.csv"));
+        bRegCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")
+                + "/output/registrations.csv"));
         assertTrue(bEncounterCSVPresent);
+        assertTrue(bRegCSVPresent);
 
 
     }

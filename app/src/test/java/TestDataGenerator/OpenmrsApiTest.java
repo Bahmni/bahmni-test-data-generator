@@ -6,13 +6,8 @@ import Jsonparser.Parser;
 import Openmrs.Openmrs;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.io.IOException;
-import java.util.Map;
 
-@ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OpenmrsApiTest
 {
@@ -40,11 +35,10 @@ public class OpenmrsApiTest
     }
     @Test
     @Order(3)
-    public void verifyGetLocation() throws IOException {
-        HttpResponse response= mrs.setUserLocation(Constant.LOCATION);
-        Parser parser=new Parser(response);
-        Map<String,String> map=Parser.zipToMap(parser.getValuesForGivenKey("name"),parser.getValuesForGivenKey("uuid"));
-        Assertions.assertTrue(map.containsKey(Constant.LOCATION));
+    public void verifyGetLocation() throws IOException
+    {
+        mrs.setUserLocation(Constant.LOCATION);
+        Assertions.assertNotNull(Request.getUuid());
 
     }
 

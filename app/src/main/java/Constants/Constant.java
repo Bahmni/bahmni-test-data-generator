@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Objects;
 
 public class Constant {
     public static String PATIENT_PROFILE_FILE_NAME = getProperties().get("PATIENT_PROFILE_FILE_NAME").toString();
@@ -41,7 +42,7 @@ public class Constant {
         String configFileName = "config.yaml";
 
         try {
-            File file = new File(Constant.class.getClassLoader().getResource(configFileName).getFile());
+            File file = new File(Objects.requireNonNull(Constant.class.getClassLoader().getResource(configFileName)).getFile());
             InputStream inputStream = new FileInputStream(file);
             Yaml yaml = new Yaml();
             data = yaml.load(inputStream);
