@@ -3,10 +3,9 @@ package TestDataGenerator;
 import Api.Request;
 import Constants.Constant;
 import Jsonparser.Parser;
-import Openmrs.Openmrs;
+import Api.Openmrs;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.*;
-import org.mockito.Mock;
 
 import java.io.IOException;
 

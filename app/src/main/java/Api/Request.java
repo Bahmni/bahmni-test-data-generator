@@ -1,8 +1,11 @@
 package Api;
 
 
+import Config.LoggerConfig;
 import Constants.Constant;
-import org.apache.http.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -19,48 +22,56 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
-import java.net.*;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import Config.LoggerConfig;
-import org.junit.jupiter.api.Assertions;
 
 public class Request {
 
-    private static BasicCookieStore cookieStore ;
+    private static BasicCookieStore cookieStore;
     private static String uuid;
 
-    public static void setUuid(String uuid) {Request.uuid = uuid;}
-    public static String getUuid()
-    {
+    public static void setUuid(String uuid) {
+        Request.uuid = uuid;
+    }
+
+    public static String getUuid() {
         return uuid;
     }
+
     public static BasicCookieStore getCookieStore() {
         return cookieStore;
     }
-    HttpClientContext context=null;
-    HttpGet get=null;
-    HttpPost post=null;
-    Logger logger= LoggerConfig.LOGGER;
-    protected void post(String path, Map<String, String> headers, String file)
-    {
+
+    HttpClientContext context = null;
+    HttpGet get = null;
+    HttpPost post = null;
+    Logger logger = LoggerConfig.LOGGER;
+
+    protected void post(String path, Map<String, String> headers, String file) {
         HttpResponse response = null;
         try {
-            context= new HttpClientContext();
-            BasicClientCookie cookie=new BasicClientCookie("bahmni.user.location",URLEncoder.encode("{name:"+ Constant.LOCATION+",uuid:"+uuid+"}", StandardCharsets.UTF_8));
-            String domain=Constant.BASEURL.split("//")[1];
+            context = new HttpClientContext();
+            BasicClientCookie cookie = new BasicClientCookie(
+                    "bahmni.user.location",
+                    URLEncoder.encode("{name:" + Constant.LOCATION + ",uuid:" + uuid + "}", StandardCharsets.UTF_8)
+            );
+            String domain = Constant.BASEURL.split("//")[1];
             cookie.setDomain(domain);
             cookie.setPath("/");
-            BasicClientCookie cookie1=new BasicClientCookie("app.clinical.grantProviderAccessData",URLEncoder.encode("null", StandardCharsets.UTF_8));
+            BasicClientCookie cookie1 = new BasicClientCookie(
+                    "app.clinical.grantProviderAccessData", URLEncoder.encode("null", StandardCharsets.UTF_8));
             cookie1.setDomain(domain);
             cookie1.setPath("/");
-            BasicClientCookie cookie2=new BasicClientCookie("bahmni.user",URLEncoder.encode(Constant.USERNAME, StandardCharsets.UTF_8));
+            BasicClientCookie cookie2 = new BasicClientCookie("bahmni.user", URLEncoder.encode(Constant.USERNAME, StandardCharsets.UTF_8));
             cookie2.setDomain(domain);
             cookie2.setPath("/");
             cookieStore.addCookie(cookie);
@@ -78,18 +89,17 @@ public class Request {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             String[] bits = file.split("/");
-            String csvFileName = bits[bits.length-1];
+            String csvFileName = bits[bits.length - 1];
             builder.addBinaryBody("file", csvfile, ContentType.MULTIPART_FORM_DATA, csvFileName);
             HttpEntity entity = builder.build();
             post.setEntity(entity);
-            response=httpclient.execute(post,context);
+            response = httpclient.execute(post, context);
             logger.info(context.getRequest().toString());
-            logger.info("Response Status is : "+ response.getStatusLine().getStatusCode());
-            Assertions.assertEquals(200,response.getStatusLine().getStatusCode());
+            logger.info("Response Status is : " + response.getStatusLine().getStatusCode());
+            Assertions.assertEquals(200, response.getStatusLine().getStatusCode());
             cookieStore = (BasicCookieStore) context.getCookieStore();
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             assert response != null;
             for (String s : Arrays.asList(response.getStatusLine().toString(), e.getLocalizedMessage())) {
                 logger.severe(s);
@@ -98,9 +108,8 @@ public class Request {
 
     }
 
-    protected   HttpResponse get(String path, Map<String, String> headers, Map<String, String> params)
-    {
-        HttpResponse response=null;
+    protected HttpResponse get(String path, Map<String, String> headers, Map<String, String> params) {
+        HttpResponse response = null;
         try {
             context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
@@ -112,16 +121,16 @@ public class Request {
             headers.forEach(get::setHeader);
 
             List<NameValuePair> nameValuePairs = new ArrayList<>();
-            params.entrySet().forEach((e) -> nameValuePairs.add(new BasicNameValuePair(e.getKey(), e.getValue())));
+            params.forEach((key, value) -> nameValuePairs.add(new BasicNameValuePair(key, value)));
 
             URI uri = new URIBuilder(get.getURI())
                     .addParameters(nameValuePairs)
                     .build();
             get.setURI(uri);
-            response=httpclient.execute(get,context);
+            response = httpclient.execute(get, context);
             logger.info(context.getRequest().toString());
-            logger.info("Response Status is : "+response.getStatusLine().getStatusCode());
-             cookieStore = (BasicCookieStore) context.getCookieStore();
+            logger.info("Response Status is : " + response.getStatusLine().getStatusCode());
+            cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e) {
             assert response != null;
@@ -131,9 +140,9 @@ public class Request {
         }
         return response;
     }
-    protected HttpResponse get(String path, Map<String, String> headers)
-    {
-        HttpResponse response=null;
+
+    protected HttpResponse get(String path, Map<String, String> headers) {
+        HttpResponse response = null;
         try {
             context = new HttpClientContext();
             CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
@@ -143,9 +152,9 @@ public class Request {
 
             get = new HttpGet(Constant.BASEURL + path);
             headers.forEach(get::setHeader);
-            response=httpclient.execute(get,context);
+            response = httpclient.execute(get, context);
             logger.info(context.getRequest().toString());
-            logger.info("Status is : "+ response.getStatusLine().getStatusCode());
+            logger.info("Status is : " + response.getStatusLine().getStatusCode());
             cookieStore = (BasicCookieStore) context.getCookieStore();
 
         } catch (Exception e) {

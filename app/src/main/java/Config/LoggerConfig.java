@@ -1,22 +1,25 @@
 package Config;
 
-import java.io.IOException;
-import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
-public class LoggerConfig
-{
+public class LoggerConfig {
     public static final Logger LOGGER = Logger.getLogger(LoggerConfig.class.getName());
-    public static void init()
-    {
-        Handler fileHandler;
+
+    public static void init() {
+        Handler consoleHandler;
         try {
-            fileHandler = new FileHandler(System.getProperty("user.dir") + "/application.log");
+            consoleHandler = new ConsoleHandler();
             Formatter simpleFormatter = new SimpleFormatter();
-            fileHandler.setFormatter(simpleFormatter);
-            LOGGER.addHandler(fileHandler);
-            fileHandler.setLevel(Level.ALL);
+            consoleHandler.setFormatter(simpleFormatter);
+            LOGGER.addHandler(consoleHandler);
+            consoleHandler.setLevel(Level.ALL);
             LOGGER.setLevel(Level.ALL);
-        } catch (IOException  | SecurityException e) {
+        } catch (SecurityException e) {
             LOGGER.severe("Error occur in Logger initialization." + e.getLocalizedMessage());
         }
     }

@@ -1,9 +1,10 @@
 package Profiles;
 
+import CSVwriter.DataWriter;
 import Config.LoggerConfig;
 import Constants.Constant;
-import CSVwriter.DataWriter;
 import com.github.javafaker.Faker;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,13 +14,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-public class PatientProfile
-{
-    Logger logger= LoggerConfig.LOGGER;
+public class PatientProfile {
+    Logger logger = LoggerConfig.LOGGER;
     Faker faker = new Faker(new Locale("en-IND"));
 
-    public String[] createPatientProfile()
-    {
+    public String[] createPatientProfile() {
         String villageDistrict = getTownCityName();
 
         return new String[]{"x", getRegistrationDate(), getFirstName(), getMiddleName(),
@@ -27,25 +26,22 @@ public class PatientProfile
                 getStateName()};
     }
 
-    public List<String[]> getPatientProfileList(int count)
-    {
+    public List<String[]> getPatientProfileList(int count) {
         List<String[]> entries = new ArrayList<>();
         int startPoint = Constant.REGISTRATION_INDEX_START_POINT;
 
         entries.add(Constant.registrationHeader);
 
-        for(int i=1;i<=count;i++)
-        {
+        for (int i = 1; i <= count; i++) {
             String[] pProfile = createPatientProfile();
-            pProfile[0] = Constant.REG_INITIAL+faker.random().nextInt(1,10000) + (i + startPoint);
+            pProfile[0] = Constant.REG_INITIAL + faker.random().nextInt(1, 10000) + (i + startPoint);
             entries.add(pProfile);
         }
 
         return entries;
     }
 
-    public void writePatientProfileInCSV(int count)
-    {
+    public void writePatientProfileInCSV(int count) {
         DataWriter dataWriter = new DataWriter();
         String fileName = Constant.PATIENT_PROFILE_FILE_NAME;
         List<String[]> profiles = getPatientProfileList(count);
@@ -61,7 +57,7 @@ public class PatientProfile
         try {
             then = sdf.parse(dateString);
         } catch (ParseException e) {
-            logger.severe("Could'nt parse registration date "+e.getLocalizedMessage());
+            logger.severe("Could'nt parse registration date " + e.getLocalizedMessage());
         }
         Date randomDate = faker.date().between(then, now);
 
@@ -78,7 +74,7 @@ public class PatientProfile
         try {
             then = sdf.parse(dateString);
         } catch (ParseException e) {
-            logger.severe("Could'nt parse birth date "+e.getLocalizedMessage());
+            logger.severe("Could'nt parse birth date " + e.getLocalizedMessage());
 
         }
         Date randomDate = faker.date().between(then, now);
@@ -87,39 +83,32 @@ public class PatientProfile
         return dateFormat.format(randomDate);
     }
 
-    private String getFirstName()
-    {
+    private String getFirstName() {
         return faker.name().firstName();
     }
 
-    private String getLastName()
-    {
+    private String getLastName() {
         return faker.name().lastName();
     }
 
-    private String getMiddleName()
-    {
+    private String getMiddleName() {
         return faker.name().nameWithMiddle().split(" ")[1];
     }
 
-    private String getGender()
-    {
-        int i = faker.random().nextInt(1,2);
-        return i==1? "M":"F";
+    private String getGender() {
+        int i = faker.random().nextInt(1, 2);
+        return i == 1 ? "M" : "F";
     }
 
-    private String getTownCityName()
-    {
+    private String getTownCityName() {
         return faker.address().cityName();
     }
 
-    private String getTehsilName()
-    {
+    private String getTehsilName() {
         return faker.address().secondaryAddress();
     }
 
-    private String getStateName()
-    {
+    private String getStateName() {
         return faker.address().state();
     }
 }
