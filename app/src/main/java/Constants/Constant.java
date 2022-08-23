@@ -22,7 +22,7 @@ public class Constant {
 
 
     public static String[] registrationHeader = {"Registration Number", "Registration Date", "First Name", "Middle Name", "Last Name", "Gender",
-            "Birth Date", "Address.Village", "Address.Tehsil", "Address.District", "Address.State"};
+            "Birth Date", "Address.City/Village", "Address.Pin Code", "Address.District", "Address.State"};
 
     public static String[] contactHeader = {"Registration Number", "encounterType", "visitType", "Patient.Name", "Patient.AGE",
             "Patient.Gender", "Patient.Village", "Visit Start Date", "Visit End Date", "Repeat.1.EncounterDate",

@@ -2,10 +2,10 @@ PATIENT_PROFILE_FILE_NAME: output/registrations.csv
 ENCOUNTER_PROFILE_FILE_NAME: output/encounters.csv
 REGISTRATION_INDEX_START_POINT: 1011
 PATIENT_REGISTRATION_START_DAY: "2014-02-11"
-BASEURL : https://demo-v94.mybahmni.org
+BASEURL : https://performance.lite.mybahmni.in
 USERNAME: superman
 PASSWORD: Admin123
-LOCATION: Registration Desk
+LOCATION: Bahmni Clinic
 
 REG_INITIAL: PERF
 PATIENT_COUNT: 10

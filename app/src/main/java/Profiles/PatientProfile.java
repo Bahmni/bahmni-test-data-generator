@@ -22,7 +22,7 @@ public class PatientProfile {
         String villageDistrict = getTownCityName();
 
         return new String[]{"x", getRegistrationDate(), getFirstName(), getMiddleName(),
-                getLastName(), getGender(), getBirthDate(), villageDistrict, getTehsilName(), villageDistrict,
+                getLastName(), getGender(), getBirthDate(), villageDistrict, getPinCode(), villageDistrict,
                 getStateName()};
     }
 
@@ -104,8 +104,8 @@ public class PatientProfile {
         return faker.address().cityName();
     }
 
-    private String getTehsilName() {
-        return faker.address().secondaryAddress();
+    private String getPinCode() {
+        return faker.address().zipCode();
     }
 
     private String getStateName() {
