@@ -31,9 +31,16 @@ public class TestDataGenApp {
             omrs.login(getArg("USERNAME"), getArg("PASSWORD"));
             omrs.getSessionId();
             bah.uploadPatients();
-            bah.verifyUpload();
-            bah.uploadEncounters();
-            bah.verifyUpload();
+            try {
+                Thread.sleep(1000);
+                bah.verifyUpload("PATIENT");
+                bah.uploadEncounters();
+                Thread.sleep(1000);
+                bah.verifyUpload("ENCOUNTER");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
     }

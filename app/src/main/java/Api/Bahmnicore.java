@@ -30,7 +30,7 @@ public class Bahmnicore extends Request {
         post(path, headers, System.getProperty("user.dir") + "/" + Constant.ENCOUNTER_PROFILE_FILE_NAME);
     }
 
-    public void verifyUpload() {
+    public void verifyUpload(String name) {
         String path = "/openmrs/ws/rest/v1/bahmnicore/admin/upload/status";
         Parser parser = new Parser(get(path, headers));
         String status = parser.getStringFromArray("status");
@@ -40,9 +40,13 @@ public class Bahmnicore extends Request {
                 logger.info(filename + " : UPLOAD " + status);
                 break;
             case "COMPLETED_WITH_ERRORS":
-                throw new RuntimeException(filename + " : UPLOAD " + status);
+                if(name.equalsIgnoreCase("PATIENT")) {
+                    throw new RuntimeException(filename + " : UPLOAD " + status);
+                }
+                logger.info(filename + " : UPLOAD " + status);
+                break;
             case "IN_PROGRESS":
-                verifyUpload();
+                verifyUpload(name);
                 break;
             default:
                 throw new IllegalStateException("Unexpected upload status : " + status);
