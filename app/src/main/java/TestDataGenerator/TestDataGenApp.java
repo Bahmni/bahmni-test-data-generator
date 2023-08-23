@@ -6,14 +6,24 @@ import Config.LoggerConfig;
 import Constants.Constant;
 import Profiles.ContactProfile;
 import Profiles.PatientProfile;
+import Profiles.scenarios.DefaultEncounterScenarioGenerator;
+import Profiles.scenarios.EncounterScenarioGenerator;
+import Profiles.scenarios.PrenatalEncounterScenarioGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import static java.lang.String.format;
+
 public class TestDataGenApp {
 
     Logger logger;
+
+    Map<String, EncounterScenarioGenerator> scenarioGeneratorMap = Map.of(
+            "DEFAULT", new DefaultEncounterScenarioGenerator(),
+            "PRENATAL_SUPPLEMENTS", new PrenatalEncounterScenarioGenerator()
+    );
 
     public TestDataGenApp() {
         logger = LoggerConfig.LOGGER;
@@ -21,11 +31,21 @@ public class TestDataGenApp {
     }
 
     public static void main(String[] args) {
-        TestDataGenApp app = new TestDataGenApp();
+        new TestDataGenApp().run();
+    }
+
+    private void run() {
         Bahmnicore bah = new Bahmnicore();
         Openmrs omrs = new Openmrs();
-        Map<String, Integer> inputArgs = app.getInputArgs();
-        app.createCSVs(inputArgs.get("PATIENT_COUNT"), inputArgs.get("ENCOUNTER_COUNT"));
+        Map<String, Integer> inputArgs = getInputArgs();
+        String scenarioName = getArg("SCENARIO");
+        EncounterScenarioGenerator encounterScenarioGenerator = scenarioGeneratorMap.get(scenarioName);
+        if (encounterScenarioGenerator == null) {
+            throw new IllegalArgumentException(format("No encounter scenario generator found for SCENARIO '%s'", scenarioName));
+        }
+
+        createCSVs(inputArgs.get("PATIENT_COUNT"), inputArgs.get("ENCOUNTER_COUNT"), encounterScenarioGenerator);
+
         if (inputArgs.get("S_UPLOAD_CSV") == 1) {
             omrs.setUserLocation(getArg("LOCATION"));
             omrs.login(getArg("USERNAME"), getArg("PASSWORD"));
@@ -79,9 +99,9 @@ public class TestDataGenApp {
         return args;
     }
 
-    protected void createCSVs(int patientProfileCount, int contactProfileCount) {
+    protected void createCSVs(int patientProfileCount, int contactProfileCount, EncounterScenarioGenerator encounterScenarioGenerator) {
         PatientProfile patientProfile = new PatientProfile();
-        ContactProfile contactProfile = new ContactProfile();
+        ContactProfile contactProfile = new ContactProfile(encounterScenarioGenerator);
 
         if (patientProfileCount != 0) {
             patientProfile.writePatientProfileInCSV(patientProfileCount);

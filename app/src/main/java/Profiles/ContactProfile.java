@@ -3,22 +3,34 @@ package Profiles;
 import CSVwriter.DataWriter;
 import Config.LoggerConfig;
 import Constants.Constant;
+import Profiles.scenarios.EncounterScenarioGenerator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static java.lang.String.format;
+
 public class ContactProfile {
 
-    Logger logger = LoggerConfig.LOGGER;
+    private final EncounterScenarioGenerator encounterScenarioGenerator;
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private final Logger logger = LoggerConfig.LOGGER;
+
+    public ContactProfile(EncounterScenarioGenerator encounterScenarioGenerator) {
+        this.encounterScenarioGenerator = encounterScenarioGenerator;
+    }
 
     public List<String[]> getShuffledPatientProfilesToObject() {
         List<String[]> allPatientProfileData = null;
@@ -49,15 +61,44 @@ public class ContactProfile {
         for (int i = 0; i < count; i++) {
             tempPatientInfo = patientList.get(i);
             patientName = tempPatientInfo[2] + " " + tempPatientInfo[3] + " " + tempPatientInfo[4];
-            tempContactInfo = new String[]{tempPatientInfo[0], encounterType, visitType, patientName,
-                    String.valueOf(getPatientAge(tempPatientInfo[6])), tempPatientInfo[5], tempPatientInfo[9],
-                    tempPatientInfo[1], tempPatientInfo[1],
-                    tempPatientInfo[1], "12", "Test notes", "history notes", "exam notes", "yes", "Fever",
-                    "Infectious diarrhea", "Testing Consultation Note", "Testing hospital course comment", "Stable",
-                    "Wound Care", "Need dressing"};
-            entries.add(tempContactInfo);
+
+            int patientAge = getPatientAge(tempPatientInfo[6]);
+            String patientGender = tempPatientInfo[5];
+            GregorianCalendar registrationDate = toCalendar(tempPatientInfo[1]);
+            List<Encounter> encounters = encounterScenarioGenerator.create(patientAge, patientGender, registrationDate);
+
+            for (Encounter encounter : encounters) {
+                String encounterDate = simpleDateFormat.format(encounter.getDate());
+                tempContactInfo = new String[]{
+                        tempPatientInfo[0], encounterType, visitType, patientName, String.valueOf(patientAge),
+                        patientGender, tempPatientInfo[9], encounterDate, encounterDate, encounterDate,
+                        encounter.getChiefComplaintDuration(),
+                        encounter.getChiefComplaintNotes(),
+                        encounter.getHistoryNotes(),
+                        encounter.getExaminationNotes(),
+                        encounter.getSmokingHistory(),
+                        encounter.getDiagnosis().getCode(),// TODO: Not sure how to do this.. should this work just using labels?
+                        encounter.getCondition().getCode(),
+                        encounter.getConsultationNote(),
+                        encounter.getHospitalCourse(),
+                        encounter.getOperativeNotesCondition(),
+                        encounter.getOperativeNotesProcedure(),
+                        encounter.getProcedureNotesDiagnosis()
+                };
+                entries.add(tempContactInfo);
+            }
         }
         return entries;
+    }
+
+    private GregorianCalendar toCalendar(String source) {
+        GregorianCalendar calendar = new GregorianCalendar();
+        try {
+            calendar.setTime(simpleDateFormat.parse(source));
+        } catch (ParseException e) {
+            throw new DataGenerationRuntimeException(format("Failed to parse date '%s'", source), e);
+        }
+        return calendar;
     }
 
     public void writeContactProfileInCSV(int count) {

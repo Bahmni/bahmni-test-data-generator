@@ -1,15 +1,10 @@
 package TestDataGenerator;
 
-import com.opencsv.exceptions.CsvException;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +17,7 @@ class TestDataGenAppTest {
         Files.deleteIfExists(Paths.get(System.getProperty("user.dir") + "/output/encounters.csv"));
 
         TestDataGenApp testDataGenApp = new TestDataGenApp();
-        testDataGenApp.createCSVs(1,0);
+        testDataGenApp.createCSVs(1,0, encounterScenarioGenerator);
 
         boolean bRegCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")
                 + "/output/registrations.csv"));
@@ -31,7 +26,7 @@ class TestDataGenAppTest {
                 + "/output/encounters.csv"));
         assertFalse(bEncounterCSVPresent);
 
-        testDataGenApp.createCSVs(1,1);
+        testDataGenApp.createCSVs(1,1, encounterScenarioGenerator);
         bEncounterCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")
                 + "/output/encounters.csv"));
         bRegCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")
