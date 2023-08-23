@@ -86,6 +86,11 @@ public class ContactProfile {
                         encounter.getProcedureNotesDiagnosis()
                 };
                 entries.add(tempContactInfo);
+
+                // TODO: Drug Requests
+                List<DrugOrder> drugOrders = encounter.getDrugOrders();
+                // Write out to another CSV
+
             }
         }
         return entries;

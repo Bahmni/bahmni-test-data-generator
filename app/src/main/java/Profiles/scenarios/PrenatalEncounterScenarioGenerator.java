@@ -4,10 +4,7 @@ import Profiles.Coding;
 import Profiles.DrugOrder;
 import Profiles.Encounter;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PrenatalEncounterScenarioGenerator implements EncounterScenarioGenerator {
@@ -101,9 +98,17 @@ public class PrenatalEncounterScenarioGenerator implements EncounterScenarioGene
 		}
 	}
 
+	Map<String, Set<String>> conceptTypeCache = new HashMap<>();
 	private String selectRandomDescendantOf(String snomedCode) {
+
+		if (!conceptTypeCache.containsKey(snomedCode)) {
+
+		}
+		Set<String> codes = conceptTypeCache.get(snomedCode);
+		// return random one of these
+
 		return snomedCode;// TODO: Grab page of 100 SNOMED CT concepts. Pick a random code from this.
-		// e.g. https://snowstorm.ihtsdotools.org/fhir/ValueSet/$expand?count=100&url=http://snomed.info/sct?fhir_vs=isa/87522002
+		// e.g. https://snowstorm.ihtsdotools.org/fhir/ValueSet/$expand?count=100&url=http://snomed.info/sct?fhir_vs=isa/$snomedCode$
 		// Use config SNOWSTORM_URL/ValueSet/$expand......
 		// Need RestTemplate and maybe the HAPI FHIR R4 dependency - ca.uhn.hapi.fhir : hapi-fhir-structures-r4
 	}
