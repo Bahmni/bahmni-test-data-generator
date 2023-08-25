@@ -22,7 +22,7 @@ public class PatientProfile {
         String villageDistrict = getTownCityName();
 
         return new String[]{"x", getRegistrationDate(), getFirstName(), getMiddleName(),
-                getLastName(), getGender(), getBirthDate(), villageDistrict, getPinCode(), villageDistrict,
+                getLastName(), getGender(), getBirthDate(), villageDistrict, villageDistrict, villageDistrict,
                 getStateName()};
     }
 

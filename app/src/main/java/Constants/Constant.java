@@ -22,13 +22,13 @@ public class Constant {
 
 
     public static String[] registrationHeader = {"Registration Number", "Registration Date", "First Name", "Middle Name", "Last Name", "Gender",
-            "Birth Date", "Address.City/Village", "Address.Pin Code", "Address.District", "Address.State"};
+            "Birth Date", "Address.Village", "Address.Gram Panchayat", "Address.House No., Street", "Address.State"};
 
     public static String[] contactHeader = {"Registration Number", "encounterType", "visitType", "Patient.Name", "Patient.AGE",
             "Patient.Gender", "Patient.Village", "Visit Start Date", "Visit End Date", "Repeat.1.EncounterDate",
             "Repeat.1.Obs.Chief Complaint Duration", "Repeat.1.Obs.Chief Complaint Notes",
             "Repeat.1.Obs.History Notes", "Repeat.1.Obs.Examination Notes", "Repeat.1.Obs.Smoking History",
-            "Repeat.1.Diagnosis.1", "Repeat.1.Condition.1", "Repeat.1.Obs.Consultation Note",
+            "Repeat.1.Diagnosis.1", "Repeat.1.Diagnosis.2", "Repeat.1.Obs.Consultation Note",
             "Repeat.1.Obs.Hospital Course", "Repeat.1.Obs.Operative Notes, Condition",
             "Repeat.1.Obs.Operative Notes, Procedure", "Repeat.1.Obs.Procedure Notes, Diagnosis"};
 

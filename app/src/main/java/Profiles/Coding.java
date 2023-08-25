@@ -6,14 +6,16 @@ public class Coding {
 
 	private final String code;
 	private final String system;
+	private final String label;
 
-	private Coding(String code, String system) {
+	private Coding(String code, String system, String label) {
 		this.code = code;
 		this.system = system;
+		this.label = label;
 	}
 
-	public static Coding of(String code, String system) {
-		return new Coding(code, system);
+	public static Coding of(String code, String system, String label) {
+		return new Coding(code, system, label);
 	}
 
 	public String getCode() {
@@ -22,5 +24,9 @@ public class Coding {
 
 	public String getSystem() {
 		return system;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 }

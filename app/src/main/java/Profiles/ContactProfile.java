@@ -14,8 +14,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Logger;
@@ -69,6 +71,7 @@ public class ContactProfile {
 
             for (Encounter encounter : encounters) {
                 String encounterDate = simpleDateFormat.format(encounter.getDate());
+                encounterDate = updatedEncounterDateIfLessThanPatientDob(tempPatientInfo[6], encounterDate);
                 tempContactInfo = new String[]{
                         tempPatientInfo[0], encounterType, visitType, patientName, String.valueOf(patientAge),
                         patientGender, tempPatientInfo[9], encounterDate, encounterDate, encounterDate,
@@ -77,8 +80,8 @@ public class ContactProfile {
                         encounter.getHistoryNotes(),
                         encounter.getExaminationNotes(),
                         encounter.getSmokingHistory(),
-                        encounter.getDiagnosis().getCode(),// TODO: Not sure how to do this.. should this work just using labels?
-                        encounter.getCondition().getCode(),
+                        encounter.getDiagnosis().getLabel(),// TODO: Not sure how to do this.. should this work just using labels?
+                        encounter.getCondition().getLabel(),
                         encounter.getConsultationNote(),
                         encounter.getHospitalCourse(),
                         encounter.getOperativeNotesCondition(),
@@ -118,5 +121,14 @@ public class ContactProfile {
         LocalDate today = LocalDate.now();
         Period period = Period.between(birthday, today);
         return period.getYears();
+    }
+
+    public String updatedEncounterDateIfLessThanPatientDob(String dob, String encounterDateStr) {
+        LocalDate birthday = LocalDate.parse(dob);
+        LocalDate encounterDate = LocalDate.parse(encounterDateStr);
+        if (birthday.isAfter(encounterDate)) {
+            return simpleDateFormat.format(Date.from(birthday.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        }
+        return encounterDateStr;
     }
 }

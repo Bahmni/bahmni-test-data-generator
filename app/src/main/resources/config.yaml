@@ -2,16 +2,16 @@ PATIENT_PROFILE_FILE_NAME: output/registrations.csv
 ENCOUNTER_PROFILE_FILE_NAME: output/encounters.csv
 REGISTRATION_INDEX_START_POINT: 1011
 PATIENT_REGISTRATION_START_DAY: "2014-02-11"
-BASEURL : https://performance.lite.mybahmni.in
+BASEURL : https://dev.snomed.mybahmni.in
 USERNAME: superman
 PASSWORD: Admin123
-LOCATION: Bahmni Clinic
+LOCATION: General Ward
 
-REG_INITIAL: PERF
+REG_INITIAL: GAN
 PATIENT_COUNT: 10
 S_CREATE_ENCOUNTER: y
 ENCOUNTER_COUNT: 10
-SCENARIO: DEFAULT
+SCENARIO: PRENATAL_SUPPLEMENTS
 S_UPLOAD_CSV: y
 
-SNOWSTORM_URL : http://localhost:8080/fhir
+SNOWSTORM_URL : https://snomstorm.snomed.mybahmni.in/fhir
