@@ -55,4 +55,12 @@ public class Parser {
                 .collect(Collectors.toMap(_i -> keyIter.next(), _i -> valIter.next()));
     }
 
+    public List<String> getValuesForGivenKeyAndResponse(String responseString, String key) {
+        System.out.println(responseString);
+        JSONArray jsonArray = new JSONArray(responseString);
+        return IntStream.range(0, jsonArray.length())
+                .mapToObj(index -> ((JSONObject) jsonArray.get(index)).optString(key))
+                .collect(Collectors.toList());
+    }
+
 }

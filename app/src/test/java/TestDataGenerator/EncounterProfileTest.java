@@ -4,9 +4,11 @@ import CSVwriter.DataWriter;
 import Constants.Constant;
 import Profiles.ContactProfile;
 import Profiles.PatientProfile;
+import Profiles.scenarios.DefaultEncounterScenarioGenerator;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -25,7 +27,11 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class EncounterProfileTest {
 
-    ContactProfile cp = new ContactProfile();
+    ContactProfile cp;
+    @BeforeEach
+    void setUp() {
+        cp = new ContactProfile(new DefaultEncounterScenarioGenerator(), new ArrayList<>());
+    }
     @Test
     void getShuffledPatientProfilesTest() throws IOException, CsvException {
         DataWriter dataWriter = new DataWriter();
@@ -56,7 +62,7 @@ class EncounterProfileTest {
     }
 
     @Mock
-    ContactProfile contactProfile = new ContactProfile();
+    ContactProfile contactProfile;
 
     @Test
     void writeContactProfileInCSVInvocationTest() throws IOException, ParseException, CsvException {

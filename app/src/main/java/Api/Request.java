@@ -14,6 +14,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -163,5 +164,60 @@ public class Request {
             logger.severe(response.getStatusLine().toString());
         }
         return response;
+    }
+
+    protected void post(String requestBody, String path, Map<String, String> headers) {
+        HttpResponse response = null;
+        try {
+            context = new HttpClientContext();
+            BasicClientCookie cookie = new BasicClientCookie(
+                    "bahmni.user.location",
+                    URLEncoder.encode("{name:" + Constant.LOCATION + ",uuid:" + uuid + "}", StandardCharsets.UTF_8)
+            );
+            String domain = Constant.BASEURL.split("//")[1];
+            cookie.setDomain(domain);
+            cookie.setPath("/");
+            BasicClientCookie cookie1 = new BasicClientCookie(
+                    "app.clinical.grantProviderAccessData", URLEncoder.encode("null", StandardCharsets.UTF_8));
+            cookie1.setDomain(domain);
+            cookie1.setPath("/");
+            BasicClientCookie cookie2 = new BasicClientCookie("bahmni.user", URLEncoder.encode(Constant.USERNAME, StandardCharsets.UTF_8));
+            cookie2.setDomain(domain);
+            cookie2.setPath("/");
+            cookieStore.addCookie(cookie);
+            cookieStore.addCookie(cookie1);
+            cookieStore.addCookie(cookie2);
+
+            HttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore)
+                    .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .build();
+
+            post = new HttpPost(Constant.BASEURL + path);
+            headers.forEach(post::setHeader);
+            post.setHeader("Accept", "application/json");
+            post.setHeader("Content-type", "application/json");
+
+            StringEntity entity;
+            if (requestBody != null) {
+                entity = new StringEntity(requestBody);
+                post.setEntity(entity);
+                System.out.println(requestBody);
+            } else {
+                post.setEntity(null);
+            }
+
+            response = httpclient.execute(post, context);
+            logger.info(context.getRequest().toString());
+            logger.info("Response Status is : " + response.getStatusLine().getStatusCode());
+            cookieStore = (BasicCookieStore) context.getCookieStore();
+
+        } catch (Exception e) {
+            assert response != null;
+            for (String s : Arrays.asList(response.getStatusLine().toString(), e.getLocalizedMessage())) {
+                logger.severe(s);
+            }
+        }
+
     }
 }

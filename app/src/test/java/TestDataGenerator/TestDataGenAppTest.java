@@ -1,5 +1,6 @@
 package TestDataGenerator;
 
+import Profiles.scenarios.DefaultEncounterScenarioGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ class TestDataGenAppTest {
         Files.deleteIfExists(Paths.get(System.getProperty("user.dir") + "/output/encounters.csv"));
 
         TestDataGenApp testDataGenApp = new TestDataGenApp();
-        testDataGenApp.createCSVs(1,0, encounterScenarioGenerator);
+        testDataGenApp.createCSVs(1,0, new DefaultEncounterScenarioGenerator());
 
         boolean bRegCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")
                 + "/output/registrations.csv"));
@@ -26,7 +27,7 @@ class TestDataGenAppTest {
                 + "/output/encounters.csv"));
         assertFalse(bEncounterCSVPresent);
 
-        testDataGenApp.createCSVs(1,1, encounterScenarioGenerator);
+        testDataGenApp.createCSVs(1,1, new DefaultEncounterScenarioGenerator());
         bEncounterCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")
                 + "/output/encounters.csv"));
         bRegCSVPresent = Files.exists(Paths.get(System.getProperty("user.dir")

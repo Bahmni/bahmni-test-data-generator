@@ -2,6 +2,7 @@ package TestDataGenerator;
 import Constants.Constant;
 import Profiles.ContactProfile;
 import Profiles.PatientProfile;
+import Profiles.scenarios.DefaultEncounterScenarioGenerator;
 import com.opencsv.exceptions.CsvException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,7 +42,7 @@ class PatientProfileTest {
     @Test
     void writePatientProfileInCSVTest() throws IOException, CsvException {
         pf.writePatientProfileInCSV(1);
-        ContactProfile cp = new ContactProfile();
+        ContactProfile cp = new ContactProfile(new DefaultEncounterScenarioGenerator(), new ArrayList<>());
         assertEquals(1, cp.getShuffledPatientProfilesToObject().size());
     }
 
