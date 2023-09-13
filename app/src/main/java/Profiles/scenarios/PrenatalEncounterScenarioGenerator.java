@@ -31,7 +31,7 @@ public class PrenatalEncounterScenarioGenerator implements EncounterScenarioGene
 			// 3% of all patients become pregnant
 			if (chancePercent(3f)) {
 				encounters.add(new Encounter(registrationDate)
-						.setDiagnosis(selectRandomDescendantOf("77386006")));// 77386006 |Pregnancy (finding)|
+						.setDiagnosis("77386006"));// 77386006 |Pregnancy (finding)|
 
 				if (chancePercent(78f)) {
 					// 78% get iron and folic acid supplement
