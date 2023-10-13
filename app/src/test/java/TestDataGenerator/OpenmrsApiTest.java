@@ -9,6 +9,8 @@ import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 
+import static TestDataGenerator.TestDataGenApp.getArg;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OpenmrsApiTest
 {
@@ -18,7 +20,7 @@ public class OpenmrsApiTest
     @Order(1)
     public void verifyLogin()
     {
-       HttpResponse response= mrs.login(Constant.USERNAME,Constant.PASSWORD);
+       HttpResponse response= mrs.login(getArg("UNAME"), getArg("PASSWORD"));
        Assertions.assertEquals(200,response.getStatusLine().getStatusCode());
 
     }

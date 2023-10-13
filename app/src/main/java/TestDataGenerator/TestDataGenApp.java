@@ -28,7 +28,7 @@ public class TestDataGenApp {
         app.createCSVs(inputArgs.get("PATIENT_COUNT"), inputArgs.get("ENCOUNTER_COUNT"));
         if (inputArgs.get("S_UPLOAD_CSV") == 1) {
             omrs.setUserLocation(getArg("LOCATION"));
-            omrs.login(getArg("USERNAME"), getArg("PASSWORD"));
+            omrs.login(getArg("UNAME"), getArg("PASSWORD"));
             omrs.getSessionId();
             bah.uploadPatients();
             try {

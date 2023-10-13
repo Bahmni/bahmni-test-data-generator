@@ -65,7 +65,7 @@ public class Request {
 
     public String getUserName()
     {
-            String username=System.getenv("USERNAME");
+            String username=System.getenv("UNAME");
         if(username==null)
             username= Constant.USERNAME;
         return username;

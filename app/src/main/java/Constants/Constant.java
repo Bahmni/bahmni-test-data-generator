@@ -16,7 +16,7 @@ public class Constant {
     public static String PATIENT_REGISTRATION_START_DAY = getProperties().get("PATIENT_REGISTRATION_START_DAY").toString();
     public static String REG_INITIAL = getProperties().get("REG_INITIAL").toString();
     public static String BASEURL = getProperties().get("BASEURL").toString();
-    public static String USERNAME = getProperties().get("USERNAME").toString();
+    public static String USERNAME = getProperties().get("UNAME").toString();
     public static String PASSWORD = getProperties().get("PASSWORD").toString();
     public static String LOCATION = getProperties().get("LOCATION").toString();
 
