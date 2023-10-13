@@ -32,6 +32,7 @@ public class Bahmnicore extends Request {
     }
 
     public void verifyUpload(String name) throws InterruptedException {
+        Thread.sleep(5000);
         String path = "/openmrs/ws/rest/v1/bahmnicore/admin/upload/status";
         HttpResponse response = get(path, headers);
         int responseCode = response.getStatusLine().getStatusCode();

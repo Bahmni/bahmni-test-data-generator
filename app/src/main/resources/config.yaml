@@ -2,9 +2,9 @@ PATIENT_PROFILE_FILE_NAME: output/registrations.csv
 ENCOUNTER_PROFILE_FILE_NAME: output/encounters.csv
 REGISTRATION_INDEX_START_POINT: 600
 PATIENT_REGISTRATION_START_DAY: "2000-02-11"
-BASEURL : https://gcp-qa.emr.cure.org
+BASEURL : https://localhost
 USERNAME: superman
-PASSWORD: Secret007
+PASSWORD: Admin123
 LOCATION: CURE Ethiopia
 
 REG_INITIAL: ET

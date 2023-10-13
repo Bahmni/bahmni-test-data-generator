@@ -55,23 +55,45 @@ public class Request {
     HttpGet get = null;
     HttpPost post = null;
     Logger logger = LoggerConfig.LOGGER;
+    public String getBaseUrl()
+    {
+        String url=System.getenv("BASE_URL");
+        if(url==null)
+            url= Constant.BASEURL;
+        return url;
+    }
 
+    public String getUserName()
+    {
+            String username=System.getenv("USERNAME");
+        if(username==null)
+            username= Constant.USERNAME;
+        return username;
+    }
+
+    public String getPassword()
+    {
+            String password=System.getenv("PASSWORD");
+        if(password==null)
+            password= Constant.PASSWORD;
+        return password;
+    }
     protected void post(String path, Map<String, String> headers, String file) {
         HttpResponse response = null;
         try {
             context = new HttpClientContext();
             BasicClientCookie cookie = new BasicClientCookie(
                     "bahmni.user.location",
-                    URLEncoder.encode("{name:" + Constant.LOCATION + ",uuid:" + uuid + "}", StandardCharsets.UTF_8)
+                    URLEncoder.encode("{name:" + Constant.LOCATION + ",uuid:" + uuid + "}", StandardCharsets.UTF_8.name())
             );
-            String domain = Constant.BASEURL.split("//")[1];
+            String domain = getBaseUrl().split("//")[1];
             cookie.setDomain(domain);
             cookie.setPath("/");
             BasicClientCookie cookie1 = new BasicClientCookie(
-                    "app.clinical.grantProviderAccessData", URLEncoder.encode("null", StandardCharsets.UTF_8));
+                    "app.clinical.grantProviderAccessData", URLEncoder.encode("null", StandardCharsets.UTF_8.name()));
             cookie1.setDomain(domain);
             cookie1.setPath("/");
-            BasicClientCookie cookie2 = new BasicClientCookie("bahmni.user", URLEncoder.encode(Constant.USERNAME, StandardCharsets.UTF_8));
+            BasicClientCookie cookie2 = new BasicClientCookie("bahmni.user", URLEncoder.encode(getUserName(), StandardCharsets.UTF_8.name()));
             cookie2.setDomain(domain);
             cookie2.setPath("/");
             cookieStore.addCookie(cookie);
@@ -83,7 +105,7 @@ public class Request {
                     .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
-            post = new HttpPost(Constant.BASEURL + path);
+            post = new HttpPost(getBaseUrl() + path);
             headers.forEach(post::setHeader);
             File csvfile = new File(file);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -117,7 +139,7 @@ public class Request {
                     .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
-            get = new HttpGet(Constant.BASEURL + path);
+            get = new HttpGet(getBaseUrl() + path);
             headers.forEach(get::setHeader);
 
             List<NameValuePair> nameValuePairs = new ArrayList<>();
@@ -150,7 +172,7 @@ public class Request {
                     .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                     .build();
 
-            get = new HttpGet(Constant.BASEURL + path);
+            get = new HttpGet(getBaseUrl() + path);
             headers.forEach(get::setHeader);
             response = httpclient.execute(get, context);
             logger.info(context.getRequest().toString());
