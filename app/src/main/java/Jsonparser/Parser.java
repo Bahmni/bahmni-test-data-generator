@@ -40,6 +40,13 @@ public class Parser {
 
     }
 
+    public int getIntFromArray(String path) {
+        JSONArray jrr = new JSONArray(response);
+        JSONObject job = (JSONObject) jrr.get(0);
+        return job.getInt(path);
+
+    }
+
     public List<String> getValuesForGivenKey(String key) {
         JSONObject root = new JSONObject(response);
         JSONArray jsonArray = root.getJSONArray("results");

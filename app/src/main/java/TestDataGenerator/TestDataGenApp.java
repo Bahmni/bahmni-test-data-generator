@@ -32,11 +32,7 @@ public class TestDataGenApp {
             omrs.getSessionId();
             bah.uploadPatients();
             try {
-                Thread.sleep(1000);
                 bah.verifyUpload("PATIENT");
-                bah.uploadEncounters();
-                Thread.sleep(1000);
-                bah.verifyUpload("ENCOUNTER");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

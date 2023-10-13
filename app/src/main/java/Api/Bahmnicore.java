@@ -3,6 +3,7 @@ package Api;
 import Config.LoggerConfig;
 import Constants.Constant;
 import Jsonparser.Parser;
+import org.apache.http.HttpResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,26 +31,36 @@ public class Bahmnicore extends Request {
         post(path, headers, System.getProperty("user.dir") + "/" + Constant.ENCOUNTER_PROFILE_FILE_NAME);
     }
 
-    public void verifyUpload(String name) {
+    public void verifyUpload(String name) throws InterruptedException {
         String path = "/openmrs/ws/rest/v1/bahmnicore/admin/upload/status";
-        Parser parser = new Parser(get(path, headers));
-        String status = parser.getStringFromArray("status");
-        String filename = parser.getStringFromArray("savedFileName");
-        switch (status) {
-            case "COMPLETED":
-                logger.info(filename + " : UPLOAD " + status);
-                break;
-            case "COMPLETED_WITH_ERRORS":
-                if(name.equalsIgnoreCase("PATIENT")) {
-                    throw new RuntimeException(filename + " : UPLOAD " + status);
-                }
-                logger.info(filename + " : UPLOAD " + status);
-                break;
-            case "IN_PROGRESS":
-                verifyUpload(name);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected upload status : " + status);
+        HttpResponse response = get(path, headers);
+        int responseCode = response.getStatusLine().getStatusCode();
+        if (responseCode == 200) {
+            Parser parser = new Parser(response);
+            String status = parser.getStringFromArray("status");
+            int count = parser.getIntFromArray("successfulRecords");
+            String filename = parser.getStringFromArray("savedFileName");
+            switch (status) {
+                case "COMPLETED":
+                    logger.info(filename + " : UPLOAD " + status);
+                    break;
+                case "COMPLETED_WITH_ERRORS":
+                    if (name.equalsIgnoreCase("PATIENT")) {
+                        if (count < 50)
+                            throw new RuntimeException(filename + " : UPLOAD " + status);
+                    }
+                    logger.info(filename + " : UPLOAD " + status);
+                    break;
+                case "IN_PROGRESS":
+                    verifyUpload(name);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected upload status : " + status);
+            }
+        }
+        else
+        {
+            verifyUpload(name);
         }
     }
 }

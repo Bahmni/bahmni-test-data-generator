@@ -22,8 +22,8 @@ public class PatientProfile {
         String villageDistrict = getTownCityName();
 
         return new String[]{"x", getRegistrationDate(), getFirstName(), getMiddleName(),
-                getLastName(), getGender(), getBirthDate(), villageDistrict, getPinCode(), villageDistrict,
-                getStateName()};
+                getLastName(), getGender(), getBirthDate(), "Ethiopia", "Amhara", "North Gondar",
+                "Addi Arkay"};
     }
 
     public List<String[]> getPatientProfileList(int count) {
@@ -34,7 +34,7 @@ public class PatientProfile {
 
         for (int i = 1; i <= count; i++) {
             String[] pProfile = createPatientProfile();
-            pProfile[0] = Constant.REG_INITIAL + faker.random().nextInt(1, 10000) + (i + startPoint);
+            pProfile[0] = Constant.REG_INITIAL + (i + startPoint)+ faker.random().nextInt(1, 100);
             entries.add(pProfile);
         }
 
@@ -61,7 +61,7 @@ public class PatientProfile {
         }
         Date randomDate = faker.date().between(then, now);
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
         return dateFormat.format(randomDate);
     }
 
@@ -79,7 +79,7 @@ public class PatientProfile {
         }
         Date randomDate = faker.date().between(then, now);
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
         return dateFormat.format(randomDate);
     }
 
