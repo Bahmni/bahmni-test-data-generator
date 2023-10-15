@@ -34,7 +34,7 @@ public class PatientProfile {
 
         for (int i = 1; i <= count; i++) {
             String[] pProfile = createPatientProfile();
-            pProfile[0] = Constant.REG_INITIAL + (i + startPoint)+ faker.random().nextInt(1, 100);
+            pProfile[0] = Constant.REG_INITIAL + (i + startPoint)+ faker.random().nextInt(100, 100000);
             entries.add(pProfile);
         }
 

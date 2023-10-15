@@ -47,7 +47,6 @@ public class Bahmnicore extends Request {
                     break;
                 case "COMPLETED_WITH_ERRORS":
                     if (name.equalsIgnoreCase("PATIENT")) {
-                        if (count < 50)
                             throw new RuntimeException(filename + " : UPLOAD " + status);
                     }
                     logger.info(filename + " : UPLOAD " + status);
