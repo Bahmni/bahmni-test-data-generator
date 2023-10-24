@@ -44,7 +44,7 @@ public class Openmrs extends Request {
         String path = "/openmrs/ws/rest/v1/location";
         HttpResponse response = get(path, headers, params);
         Parser parser = new Parser(response);
-        Map<String, String> map = Parser.zipToMap(parser.getValuesForGivenKey("name"), parser.getValuesForGivenKey("uuid"));
-        Request.setUuid(map.get(loc));
+        //Map<String, String> map = Parser.zipToMap(parser.getValuesForGivenKey("name"), parser.getValuesForGivenKey("uuid"));
+        Request.setUuid("0fbbeaf4-f3ea-11ed-a05b-0242ac120002");
     }
 }
