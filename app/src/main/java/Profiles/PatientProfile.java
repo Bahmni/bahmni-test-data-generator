@@ -19,11 +19,16 @@ public class PatientProfile {
     Faker faker = new Faker(new Locale("en-IND"));
 
     public String[] createPatientProfile() {
-        String villageDistrict = getTownCityName();
+        String addressLine1 = Constant.ADDRESS_LINE_1;
+        String addressLine2 = Constant.ADDRESS_LINE_2;
+        String locality = Constant.ADDRESS_LOCALITY;
+        String cityVillage = Constant.ADDRESS_CITY_VILLAGE;
+        String postalCode = Constant.ADDRESS_POSTAL_CODE;
+        String country = Constant.ADDRESS_COUNTRY;
 
         return new String[]{"x", getRegistrationDate(), getFirstName(), getMiddleName(),
-                getLastName(), getGender(), getBirthDate(), villageDistrict, getPinCode(), villageDistrict,
-                getStateName()};
+                getLastName(), getGender(), getBirthDate(), addressLine1, addressLine2,
+                locality, cityVillage, postalCode, country};
     }
 
     public List<String[]> getPatientProfileList(int count) {
@@ -110,5 +115,15 @@ public class PatientProfile {
 
     private String getStateName() {
         return faker.address().state();
+    }
+
+    private String getDistrict() {
+        return faker.address().cityName();
+    }
+    
+    protected String formatTimestampToDate(long timestampMillis) {
+        Date date = new Date(timestampMillis);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
     }
 }

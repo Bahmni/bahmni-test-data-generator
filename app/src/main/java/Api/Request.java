@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 
 public class Request {
 
-    private static BasicCookieStore cookieStore;
+    private static BasicCookieStore cookieStore = new BasicCookieStore();
     private static String uuid;
 
     public static void setUuid(String uuid) {
@@ -59,21 +59,21 @@ public class Request {
     protected void post(String path, Map<String, String> headers, String file) {
         HttpResponse response = null;
         try {
-            context = new HttpClientContext();
+            context = new HttpClientContext(); 
             BasicClientCookie cookie = new BasicClientCookie(
                     "bahmni.user.location",
                     URLEncoder.encode("{name:" + Constant.LOCATION + ",uuid:" + uuid + "}", StandardCharsets.UTF_8)
             );
-            String domain = Constant.BASEURL.split("//")[1];
+             String domain = Constant.BASEURL.split("//")[1].replaceAll("[:/].*", "");
             cookie.setDomain(domain);
-            cookie.setPath("/");
+            cookie.setPath("/");          
             BasicClientCookie cookie1 = new BasicClientCookie(
                     "app.clinical.grantProviderAccessData", URLEncoder.encode("null", StandardCharsets.UTF_8));
             cookie1.setDomain(domain);
-            cookie1.setPath("/");
+            cookie1.setPath("/");           
             BasicClientCookie cookie2 = new BasicClientCookie("bahmni.user", URLEncoder.encode(Constant.USERNAME, StandardCharsets.UTF_8));
             cookie2.setDomain(domain);
-            cookie2.setPath("/");
+            cookie2.setPath("/");        
             cookieStore.addCookie(cookie);
             cookieStore.addCookie(cookie1);
             cookieStore.addCookie(cookie2);

@@ -19,11 +19,15 @@ public class Constant {
     public static String USERNAME = getProperties().get("USERNAME").toString();
     public static String PASSWORD = getProperties().get("PASSWORD").toString();
     public static String LOCATION = getProperties().get("LOCATION").toString();
+    public static String ADDRESS_LINE_1 = getProperties().getOrDefault("ADDRESS_LINE_1", "").toString();
+    public static String ADDRESS_LINE_2 = getProperties().getOrDefault("ADDRESS_LINE_2", "").toString();
+    public static String ADDRESS_LOCALITY = getProperties().getOrDefault("ADDRESS_LOCALITY", "").toString();
+    public static String ADDRESS_CITY_VILLAGE = getProperties().getOrDefault("ADDRESS_CITY_VILLAGE", "").toString();
+    public static String ADDRESS_POSTAL_CODE = getProperties().getOrDefault("ADDRESS_POSTAL_CODE", "").toString();
+    public static String ADDRESS_COUNTRY = getProperties().getOrDefault("ADDRESS_COUNTRY", "").toString();
 
 
-    public static String[] registrationHeader = {"Registration Number", "Registration Date", "First Name", "Middle Name", "Last Name", "Gender",
-            "Birth Date", "Address.City/Village", "Address.Pin Code", "Address.District", "Address.State"};
-
+    public static String[] registrationHeader = {"Registration Number","Registration Date","First Name","Middle Name","Last Name","Gender","Birth Date","Address.Address Line 1","Address.Address Line 2","Address.Locality","Address.City/Village","Address.Postal Code","Address.Country"};
     public static String[] contactHeader = {"Registration Number", "encounterType", "visitType", "Patient.Name", "Patient.AGE",
             "Patient.Gender", "Patient.Village", "Visit Start Date", "Visit End Date", "Repeat.1.EncounterDate",
             "Repeat.1.Obs.Chief Complaint Duration", "Repeat.1.Obs.Chief Complaint Notes",

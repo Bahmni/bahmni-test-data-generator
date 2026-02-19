@@ -50,7 +50,7 @@ public class ContactProfile {
             tempPatientInfo = patientList.get(i);
             patientName = tempPatientInfo[2] + " " + tempPatientInfo[3] + " " + tempPatientInfo[4];
             tempContactInfo = new String[]{tempPatientInfo[0], encounterType, visitType, patientName,
-                    String.valueOf(getPatientAge(tempPatientInfo[6])), tempPatientInfo[5], tempPatientInfo[9],
+                    String.valueOf(getPatientAge(tempPatientInfo[6])), tempPatientInfo[5], tempPatientInfo[10],
                     tempPatientInfo[1], tempPatientInfo[1],
                     tempPatientInfo[1], "12", "Test notes", "history notes", "exam notes", "yes", "Fever",
                     "Infectious diarrhea", "Testing Consultation Note", "Testing hospital course comment", "Stable",
